@@ -1,0 +1,101 @@
+.auth-page {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 420px 1fr;
+}
+
+/* ── Left Panel ── */
+.auth-panel {
+  background: var(--navy-mid);
+  border-right: 1px solid var(--gold-border);
+  position: relative;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -100px; left: -100px;
+    width: 300px; height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,201,122,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+}
+
+.panel-inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 3rem 2.5rem;
+}
+
+.logo {
+  display: flex; align-items: center; gap: 0.75rem;
+  font-family: var(--ff-serif);
+  font-size: 1.1rem; letter-spacing: 0.05em;
+  color: var(--white);
+}
+
+.panel-content {
+  margin: auto 0;
+  padding: 2rem 0;
+
+  h1 {
+    font-family: var(--ff-serif);
+    font-size: 2.4rem; font-weight: 300;
+    color: var(--gold); line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  p { color: var(--muted); line-height: 1.8; font-size: 0.9rem; }
+}
+
+.panel-footer { font-size: 0.75rem; color: var(--muted); }
+
+/* ── Right: Form ── */
+.auth-form-area {
+  display: flex; align-items: center; justify-content: center;
+  padding: 2rem;
+  background: var(--navy);
+}
+
+.auth-card { width: 100%; max-width: 420px; }
+
+.auth-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--gold-border);
+  margin-bottom: 2rem;
+
+  .tab {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.85rem; letter-spacing: 0.06em; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    transition: all 0.2s;
+
+    &.active { color: var(--gold); border-color: var(--gold); }
+  }
+}
+
+.auth-form {
+  animation: fadeIn 0.3s var(--ease);
+
+  h2 {
+    font-family: var(--ff-serif);
+    font-size: 1.8rem; font-weight: 300;
+    margin-bottom: 1.75rem;
+  }
+}
+
+.link-sm {
+  font-size: 0.78rem; color: var(--gold);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+  background: none;
+  &:hover { border-color: var(--gold); }
+}
+
+@media (max-width: 900px) {
+  .auth-page { grid-template-columns: 1fr; }
+  .auth-panel { display: none; }
+}
