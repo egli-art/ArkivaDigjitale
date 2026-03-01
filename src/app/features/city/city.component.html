@@ -1,0 +1,118 @@
+<div class="city-page" *ngIf="city() as c; else notFound">
+  <div class="city-header">
+    <button class="btn-ghost" routerLink="/">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <path d="M19 12H5M12 5l-7 7 7 7"/>
+      </svg>
+      Kthehu te harta
+    </button>
+    <button class="btn-add" *ngIf="auth.isArtist" (click)="openModal()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+      </svg>
+      Shto Artist
+    </button>
+  </div>
+
+  <div class="city-title-row">
+    <div class="city-title">{{ c.name }}</div>
+    <div class="city-meta">{{ c.region }} &bull; {{ artists().length }} artist{{ artists().length !== 1 ? 'ë' : '' }}</div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-wrap" *ngIf="loading()">
+    <div class="spinner-light"></div>
+  </div>
+
+  <!-- Artist grid -->
+  <div class="artist-grid" *ngIf="!loading()">
+    <div class="artist-card fade-in"
+         *ngFor="let a of artists()"
+         (click)="openArtist(a.id!)">
+      <div class="card-thumb">
+        <img *ngIf="a.fotoUrl" [src]="a.fotoUrl" [alt]="a.emri" loading="lazy"/>
+        <div class="card-placeholder" *ngIf="!a.fotoUrl">{{ a.emri[0] }}</div>
+      </div>
+      <div class="card-body">
+        <div class="card-name">{{ a.emri }} {{ a.mbiemri }}</div>
+        <div class="card-type">{{ a.lloji }}</div>
+        <div class="card-year" *ngIf="a.lindja">Lindur {{ a.lindja }}</div>
+        <div class="card-works">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/>
+          </svg>
+          {{ a.vepraNr ?? 0 }} vepra
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state" *ngIf="artists().length === 0">
+      <div class="empty-icon">🗃</div>
+      <p>Asnjë artist nuk është shtuar ende për {{ c.name }}.</p>
+      <button class="btn-add" *ngIf="auth.isArtist" (click)="openModal()" style="margin:1rem auto 0;display:inline-flex">
+        + Shto artisti i parë
+      </button>
+    </div>
+  </div>
+</div>
+
+<ng-template #notFound>
+  <div class="not-found">Qyteti nuk u gjet.</div>
+</ng-template>
+
+<!-- Add Artist Modal -->
+<div class="modal-overlay" *ngIf="showModal" (click)="showModal = false">
+  <div class="modal modal-lg" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Shto Artist të Ri</span>
+      <button class="modal-close" (click)="showModal = false">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Emri</label>
+          <input type="text" [(ngModel)]="form.emri" placeholder="Emri i artistit"/>
+        </div>
+        <div class="form-group">
+          <label>Mbiemri</label>
+          <input type="text" [(ngModel)]="form.mbiemri" placeholder="Mbiemri"/>
+        </div>
+      </div>
+      <div class="form-row-2">
+        <div class="form-group">
+          <label>Lloji</label>
+          <select [(ngModel)]="form.lloji">
+            <option *ngFor="let t of artistTypes" [value]="t">{{ t }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Viti i Lindjes</label>
+          <input type="text" [(ngModel)]="form.lindja" placeholder="p.sh. 1945"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Bio / Përshkrim</label>
+        <textarea [(ngModel)]="form.bio" placeholder="Shkruaj një përshkrim të shkurtër..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Foto Profili</label>
+        <div class="upload-area">
+          <input type="file" accept="image/*" (change)="onPhotoChange($event)"/>
+          <div class="upload-icon">📷</div>
+          <div class="upload-text">Kliko ose zvarrit foton e profilit</div>
+        </div>
+        <div class="photo-preview" *ngIf="photoPreview">
+          <img [src]="photoPreview" alt="Preview"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showModal = false">Anulo</button>
+      <button class="btn-save" (click)="saveArtist()" [disabled]="saving">
+        <span class="spinner" *ngIf="saving"></span>
+        {{ saving ? 'Duke ruajtur...' : 'Ruaj Artistin' }}
+      </button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,29 @@
+<div class="map-page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Harta e Shqipërisë</div>
+      <div class="page-sub">Zgjidh një qytet për të eksploruar artistët</div>
+    </div>
+  </div>
+
+  <div class="map-wrapper">
+    <!-- Leaflet Map -->
+    <div id="albania-map"></div>
+
+    <!-- Side panel -->
+    <div class="side-panel">
+      <div class="side-header">
+        Qytetet &bull; {{ cities().length }}
+      </div>
+      <div class="city-list">
+        <div class="city-item" *ngFor="let c of cities()" (click)="goToCity(c.id)">
+          <div>
+            <div class="city-name">{{ c.name }}</div>
+            <div class="city-region">{{ c.region }}</div>
+          </div>
+          <div class="city-count">{{ c.count ?? 0 }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

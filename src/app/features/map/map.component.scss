@@ -1,0 +1,55 @@
+.map-page { animation: fadeIn 0.4s var(--ease); }
+
+.page-header {
+  padding: 2.5rem 2.5rem 1.5rem;
+  border-bottom: 1px solid var(--gold-border);
+  display: flex; justify-content: space-between; align-items: flex-end;
+}
+.page-title {
+  font-family: var(--ff-serif); font-size: 2rem; font-weight: 300;
+}
+.page-sub { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+.map-wrapper {
+  position: relative;
+  height: calc(100vh - var(--nav-h) - 110px);
+  min-height: 500px;
+}
+
+#albania-map {
+  width: 100%; height: 100%;
+  background: var(--navy-mid);
+}
+
+.side-panel {
+  position: absolute; top: 0; right: 0; bottom: 0;
+  width: 280px;
+  background: rgba(18,18,31,0.95);
+  backdrop-filter: blur(12px);
+  border-left: 1px solid var(--gold-border);
+  overflow-y: auto;
+  z-index: 400;
+}
+.side-header {
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--gold-border);
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+}
+.city-item {
+  padding: 0.9rem 1.5rem;
+  border-bottom: 1px solid var(--gold-border);
+  cursor: pointer;
+  display: flex; justify-content: space-between; align-items: center;
+  transition: background 0.2s;
+  &:hover { background: var(--surface-h); }
+}
+.city-name { font-size: 0.88rem; color: var(--white); }
+.city-region { font-size: 0.72rem; color: var(--muted); margin-top: 0.1rem; }
+.city-count {
+  font-size: 0.72rem; color: var(--muted);
+  background: var(--surface); padding: 0.2rem 0.5rem; border-radius: 99px;
+}
+
+@media (max-width: 768px) {
+  .side-panel { display: none; }
+}

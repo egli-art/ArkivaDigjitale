@@ -1,0 +1,158 @@
+<div class="auth-page">
+
+  <!-- Left panel -->
+  <aside class="auth-panel">
+    <div class="panel-inner">
+      <div class="logo">
+        <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+          <rect width="36" height="36" rx="8" fill="#1a1a2e"/>
+          <path d="M8 10h20M8 18h14M8 26h18" stroke="#e8c97a" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+        Arkiva Digjitale
+      </div>
+      <div class="panel-content">
+        <h1>Arkiva e artit dhe kulturës shqiptare.</h1>
+        <p>Një platformë digjitale për ruajtjen dhe shpërndarjen e trashëgimisë artistike të Shqipërisë — sipas qyteteve, sipas autorëve.</p>
+      </div>
+      <footer class="panel-footer">© 2025 Arkiva Digjitale</footer>
+    </div>
+  </aside>
+
+  <!-- Right: form -->
+  <div class="auth-form-area">
+    <div class="auth-card">
+
+      <!-- Tabs -->
+      <div class="auth-tabs">
+        <button class="tab" [class.active]="tab() === 'login'"    (click)="setTab('login')">Hyr</button>
+        <button class="tab" [class.active]="tab() === 'register'" (click)="setTab('register')">Regjistrohu</button>
+      </div>
+
+      <!-- LOGIN -->
+      <div *ngIf="tab() === 'login'" class="auth-form">
+        <h2>Mirë se ktheve.</h2>
+
+        <div class="err-banner" *ngIf="loginErr">{{ loginErr }}</div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="loginEmail" placeholder="emri@shembull.com" autocomplete="email"/>
+        </div>
+
+        <div class="form-group">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <label>Fjalëkalimi</label>
+            <button class="link-sm" (click)="showReset = true">Harrove?</button>
+          </div>
+          <div class="inp-wrap">
+            <input [type]="showLoginPwd ? 'text' : 'password'"
+                   [(ngModel)]="loginPwd"
+                   placeholder="••••••••"
+                   autocomplete="current-password"/>
+            <button class="toggle-pw" (click)="showLoginPwd = !showLoginPwd">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button class="btn-gold" (click)="login()" [disabled]="loginLoading">
+          <span class="spinner" *ngIf="loginLoading"></span>
+          <span>{{ loginLoading ? 'Duke hyrë...' : 'Identifikohu' }}</span>
+        </button>
+      </div>
+
+      <!-- REGISTER -->
+      <div *ngIf="tab() === 'register'" class="auth-form">
+        <h2>Krijo llogarinë.</h2>
+
+        <div class="err-banner" *ngIf="regErr">{{ regErr }}</div>
+
+        <div class="form-row-2">
+          <div class="form-group">
+            <label>Emri</label>
+            <input type="text" [(ngModel)]="regEmri" placeholder="Emri" autocomplete="given-name"/>
+          </div>
+          <div class="form-group">
+            <label>Mbiemri</label>
+            <input type="text" [(ngModel)]="regMbiemri" placeholder="Mbiemri" autocomplete="family-name"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" [(ngModel)]="regEmail" placeholder="emri@shembull.com" autocomplete="email"/>
+        </div>
+
+        <div class="form-group">
+          <label>Fjalëkalimi</label>
+          <div class="inp-wrap">
+            <input [type]="showRegPwd ? 'text' : 'password'"
+                   [(ngModel)]="regPwd"
+                   placeholder="Minimum 6 karaktere"
+                   autocomplete="new-password"
+                   (ngModelChange)="onPwdInput($event)"/>
+            <button class="toggle-pw" (click)="showRegPwd = !showRegPwd">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <div class="pwd-strength" *ngIf="regPwd">
+            <div class="bar"><div class="fill" [style.width.%]="pwdStrength" [style.background]="pwdColor"></div></div>
+            <span class="lbl" [style.color]="pwdColor">{{ pwdLabel }}</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Roli</label>
+          <div class="role-options">
+            <label class="role-option" [class.selected]="selectedRole === 'shikues'" (click)="selectRole('shikues')">
+              <input type="radio" name="role" value="shikues" [checked]="selectedRole === 'shikues'"/>
+              <div class="role-title">👁 Shikues</div>
+              <div class="role-desc">Shfleton dhe kërkon informacion</div>
+            </label>
+            <label class="role-option" [class.selected]="selectedRole === 'artist'" (click)="selectRole('artist')">
+              <input type="radio" name="role" value="artist" [checked]="selectedRole === 'artist'"/>
+              <div class="role-title">🎨 Artist / Autor</div>
+              <div class="role-desc">Ngarkon dhe menaxhon profile</div>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn-gold" (click)="register()" [disabled]="regLoading">
+          <span class="spinner" *ngIf="regLoading"></span>
+          <span>{{ regLoading ? 'Duke regjistruar...' : 'Krijo Llogarinë' }}</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- Reset Password Modal -->
+<div class="modal-overlay" *ngIf="showReset" (click)="showReset = false">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">Rivendos Fjalëkalimin</span>
+      <button class="modal-close" (click)="showReset = false">×</button>
+    </div>
+    <div class="modal-body">
+      <p style="color:var(--muted);font-size:0.85rem;margin-bottom:1rem">
+        Fut emailin tënd dhe do të dërgojmë një link rivendosjeje.
+      </p>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="resetEmail" placeholder="emri@shembull.com"/>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="showReset = false">Anulo</button>
+      <button class="btn-save" (click)="sendReset()" [disabled]="resetLoading">
+        <span class="spinner" *ngIf="resetLoading"></span>
+        Dërgo Linkun
+      </button>
+    </div>
+  </div>
+</div>

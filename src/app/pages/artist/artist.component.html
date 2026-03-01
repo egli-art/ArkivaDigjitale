@@ -1,0 +1,196 @@
+@if (loading()) {
+  <div class="page-load"><div class="spinner-gold"></div></div>
+}
+
+@if (!loading() && artist()) {
+  <!-- HERO -->
+  <section class="hero">
+    @if (artist()!.fotoUrl) {
+      <div class="hero-bg"><img [src]="artist()!.fotoUrl" [alt]="artist()!.emri" aria-hidden="true"/></div>
+    }
+    <div class="hero-grad"></div>
+    <div class="hero-in">
+      <div class="hero-nav">
+        <button class="back-btn" (click)="goBack()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+          {{ cityName() }}
+        </button>
+        @if (auth.isArtist()) {
+          <div class="hero-acts">
+            <button class="btn-ghost" (click)="openEdit()">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              Ndrysho
+            </button>
+            <button class="btn-accent" (click)="showWork.set(true)">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Shto Vepër
+            </button>
+          </div>
+        }
+      </div>
+      <div class="hero-id fade-up">
+        <div class="eyebrow">{{ artist()!.lloji }}</div>
+        <h1 class="hero-name">{{ artist()!.emri }} {{ artist()!.mbiemri }}</h1>
+        <div class="hero-loc">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {{ cityName() }}, Shqipëri{{ artist()!.lindja ? ' · b. ' + artist()!.lindja : '' }}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BODY -->
+  <div class="body">
+
+    <!-- Sidebar -->
+    <aside class="sidebar fade-up-1">
+      <div class="photo-frame">
+        @if (artist()!.fotoUrl) { <img [src]="artist()!.fotoUrl" [alt]="artist()!.emri + ' ' + artist()!.mbiemri"/> }
+        @else { <div class="ph-init">{{ artist()!.emri[0] }}</div> }
+      </div>
+      <div class="info-card">
+        <div class="ir"><span class="ik">Qyteti</span><span class="iv">{{ cityName() }}</span></div>
+        <div class="ir"><span class="ik">Lloji</span><span class="iv">{{ artist()!.lloji || '—' }}</span></div>
+        <div class="ir"><span class="ik">Lindur</span><span class="iv">{{ artist()!.lindja || '—' }}</span></div>
+        <div class="ir"><span class="ik">Vepra</span><span class="iv gold">{{ artist()!.vepraNr }}</span></div>
+        <div class="ir last"><span class="ik">Shtuar nga</span><span class="iv">{{ artist()!.shtuesEmri || '—' }}</span></div>
+      </div>
+    </aside>
+
+    <!-- Main -->
+    <main class="main fade-up-2">
+
+      <!-- Bio -->
+      <section class="bio-sec">
+        <div class="eyebrow">Bio</div>
+        @if (artist()!.bio) { <p class="bio-txt">{{ artist()!.bio }}</p> }
+        @else { <p class="bio-empty">Nuk ka bio të disponueshme.</p> }
+      </section>
+
+      <!-- Works -->
+      <section class="works-sec">
+        <div class="works-hdr">
+          <div><div class="eyebrow">Galeria e Veprave</div><h2 class="works-title">Veprat ({{ artist()!.vepraNr }})</h2></div>
+          @if (auth.isArtist()) {
+            <button class="btn-accent" (click)="showWork.set(true)">+ Shto Vepër</button>
+          }
+        </div>
+
+        @if (worksLoading()) {
+          <div class="works-load"><div class="spinner-gold"></div></div>
+        } @else if (works().length === 0) {
+          <div class="works-empty"><span>🖼</span><p>Asnjë vepër nuk është ngarkuar ende.</p></div>
+        } @else {
+          <div class="works-grid">
+            @for (w of works(); track w.id) {
+              <div class="wtile" (click)="openLb(w.imazhet, 0)">
+                <div class="wtile-img">
+                  @if (w.imazhet?.length) {
+                    <img [src]="w.imazhet[0]" [alt]="w.titulli" loading="lazy"/>
+                    @if (w.imazhet.length > 1) { <div class="multi-b">+{{ w.imazhet.length - 1 }}</div> }
+                  } @else { <div class="no-img">🖼</div> }
+                </div>
+                <div class="wtile-info">
+                  <div class="wt">{{ w.titulli }}</div>
+                  <div class="wm">{{ w.viti }}{{ w.medium ? ' · ' + w.medium : '' }}</div>
+                </div>
+              </div>
+            }
+          </div>
+        }
+      </section>
+
+    </main>
+  </div>
+}
+
+<!-- EDIT ARTIST MODAL -->
+@if (showEdit()) {
+  <div class="modal-overlay" (click)="showEdit.set(false)">
+    <div class="modal modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-header"><div class="modal-title">Ndrysho Profilin</div><button class="modal-close" (click)="showEdit.set(false)">×</button></div>
+      <div class="modal-body">
+        <div class="form-row-2">
+          <div class="form-group"><label class="form-label">Emri *</label><input class="form-input" type="text" [(ngModel)]="editForm.emri"/></div>
+          <div class="form-group"><label class="form-label">Mbiemri *</label><input class="form-input" type="text" [(ngModel)]="editForm.mbiemri"/></div>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label">Lloji</label>
+            <select class="form-input" [(ngModel)]="editForm.lloji">
+              @for (t of types; track t) { <option [value]="t">{{ t }}</option> }
+            </select>
+          </div>
+          <div class="form-group"><label class="form-label">Viti i Lindjes</label><input class="form-input" type="text" [(ngModel)]="editForm.lindja"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Bio</label><textarea class="form-input" [(ngModel)]="editForm.bio" rows="5"></textarea></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="showEdit.set(false)">Anulo</button>
+        <button class="btn-primary" [disabled]="editSaving()" (click)="saveEdit()">
+          @if (editSaving()) { <div class="spinner"></div> }
+          {{ editSaving() ? 'Duke ruajtur…' : 'Ruaj Ndryshimet' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- ADD WORK MODAL -->
+@if (showWork()) {
+  <div class="modal-overlay" (click)="showWork.set(false)">
+    <div class="modal modal-lg" (click)="$event.stopPropagation()">
+      <div class="modal-header"><div class="modal-title">Shto Vepër të Re</div><button class="modal-close" (click)="showWork.set(false)">×</button></div>
+      <div class="modal-body">
+        <div class="form-group"><label class="form-label">Titulli *</label><input class="form-input" type="text" [(ngModel)]="workForm.titulli" placeholder="Emri i veprës"/></div>
+        <div class="form-row-2">
+          <div class="form-group"><label class="form-label">Viti</label><input class="form-input" type="text" [(ngModel)]="workForm.viti" placeholder="p.sh. 1995"/></div>
+          <div class="form-group"><label class="form-label">Teknika</label><input class="form-input" type="text" [(ngModel)]="workForm.medium" placeholder="Vaj në kanavacë"/></div>
+        </div>
+        <div class="form-group"><label class="form-label">Përshkrim</label><textarea class="form-input" [(ngModel)]="workForm.pershkrim" rows="3" placeholder="Përshkruaj veprën…"></textarea></div>
+        <div class="form-group">
+          <label class="form-label">Imazhet</label>
+          <div class="upload-area">
+            <input type="file" accept="image/*" multiple (change)="onWorkImages($event)"/>
+            @if (workPrev().length === 0) {
+              <div class="upload-icon">🖼</div>
+              <div class="upload-label">Kliko ose tërhiq (shumë foto)</div>
+              <div class="upload-hint">JPG, PNG, WEBP</div>
+            } @else {
+              <div class="prev-strip">
+                @for (s of workPrev(); track s; let i = $index) {
+                  <div class="prev-th">
+                    <img [src]="s" alt="preview"/>
+                    <button class="prev-del" type="button" (click)="removeImg(i); $event.stopPropagation()">×</button>
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-ghost" (click)="showWork.set(false); resetWork()">Anulo</button>
+        <button class="btn-primary" [disabled]="workSaving()" (click)="saveWork()">
+          @if (workSaving()) { <div class="spinner"></div> }
+          {{ workSaving() ? 'Duke ngarkuar…' : 'Ruaj Veprën' }}
+        </button>
+      </div>
+    </div>
+  </div>
+}
+
+<!-- LIGHTBOX -->
+@if (lbImages().length > 0) {
+  <div class="lightbox-overlay" (click)="closeLb()">
+    <button class="lightbox-close" (click)="closeLb()">×</button>
+    @if (lbImages().length > 1) {
+      <button class="lightbox-prev" (click)="prevLb(); $event.stopPropagation()">‹</button>
+      <button class="lightbox-next" (click)="nextLb(); $event.stopPropagation()">›</button>
+    }
+    <img class="lightbox-img" [src]="lbImages()[lbIndex()]" alt="Vepra" (click)="$event.stopPropagation()"/>
+    @if (lbImages().length > 1) {
+      <div class="lightbox-counter">{{ lbIndex() + 1 }} / {{ lbImages().length }}</div>
+    }
+  </div>
+}

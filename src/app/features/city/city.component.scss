@@ -1,0 +1,76 @@
+.city-page { padding: 0 2.5rem 3rem; animation: fadeIn 0.35s var(--ease); }
+
+.city-header {
+  padding: 1.5rem 0;
+  display: flex; justify-content: space-between; align-items: center;
+}
+
+.city-title-row { padding-bottom: 1.5rem; border-bottom: 1px solid var(--gold-border); }
+.city-title { font-family: var(--ff-serif); font-size: 2rem; font-weight: 300; }
+.city-meta { font-size: 0.82rem; color: var(--muted); margin-top: 0.3rem; }
+
+.loading-wrap {
+  display: flex; justify-content: center;
+  padding: 4rem 0;
+}
+
+.artist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 1.25rem;
+  margin-top: 1.75rem;
+}
+
+.artist-card {
+  background: var(--navy-card);
+  border: 1px solid var(--gold-border);
+  border-radius: var(--r-lg);
+  overflow: hidden; cursor: pointer;
+  transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+
+  &:hover {
+    border-color: var(--gold-border-h);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+  }
+}
+
+.card-thumb {
+  width: 100%; aspect-ratio: 4/3;
+  background: var(--navy-light);
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+
+  img { width: 100%; height: 100%; object-fit: cover; }
+}
+.card-placeholder {
+  font-family: var(--ff-serif);
+  font-size: 3.5rem; color: var(--gold-border);
+  font-style: italic;
+}
+.card-body { padding: 1.1rem 1.25rem; }
+.card-name { font-family: var(--ff-serif); font-size: 1.1rem; color: var(--white); margin-bottom: 0.2rem; }
+.card-type { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold-dim); }
+.card-year { font-size: 0.78rem; color: var(--muted); margin-top: 0.4rem; }
+.card-works {
+  display: flex; align-items: center; gap: 0.35rem;
+  font-size: 0.72rem; color: var(--muted); margin-top: 0.75rem;
+}
+
+.empty-state {
+  grid-column: 1/-1;
+  padding: 4rem 2rem; text-align: center;
+  .empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+  p { color: var(--muted); font-size: 0.9rem; }
+}
+
+.photo-preview {
+  margin-top: 0.75rem;
+  img { width: 80px; height: 80px; object-fit: cover; border-radius: var(--r); border: 1px solid var(--gold-border); }
+}
+
+.not-found { padding: 4rem 2.5rem; color: var(--muted); }
+
+@media (max-width: 640px) {
+  .city-page { padding: 0 1.25rem 2rem; }
+}
