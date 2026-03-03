@@ -1,0 +1,708 @@
+{
+  "__collections__": {
+
+    "perdoruesit": {
+      "demo-admin-001": {
+        "uid":       "demo-admin-001",
+        "emri":      "Demo",
+        "mbiemri":   "Admin",
+        "emriPlote": "Demo Admin",
+        "email":     "demo@arkiva.al",
+        "roli":      "artist",
+        "bio":       "Llogari demo për testim. Mund të shtosh artistë dhe të ngarkosh vepra.",
+        "avatarUrl": "",
+        "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-01T00:00:00Z" },
+        "__collections__": {}
+      },
+      "viewer-001": {
+        "uid":       "viewer-001",
+        "emri":      "Shikues",
+        "mbiemri":   "Demo",
+        "emriPlote": "Shikues Demo",
+        "email":     "shikues@arkiva.al",
+        "roli":      "shikues",
+        "bio":       "",
+        "avatarUrl": "",
+        "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-02T00:00:00Z" },
+        "__collections__": {}
+      }
+    },
+
+    "artistet": {
+
+      "artist-ismail-qemali": {
+        "emri":       "Ismail",
+        "mbiemri":    "Qemali",
+        "lloji":      "Shkrimtar",
+        "lindja":     "1844",
+        "bio":        "Ismail Qemali (1844–1919) ishte një burrë shteti, diplomat dhe patriot shqiptar. Ai shpalli pavarësinë e Shqipërisë më 28 Nëntor 1912 në Vlorë dhe u bë kryeministri i parë i shtetit shqiptar. Veprimtaria e tij letrare dhe politike la gjurmë të thella në historinë kombëtare.",
+        "fotoUrl":    "",
+        "qyteti":     "vlore",
+        "qytetiEmri": "Vlorë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-10T10:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-001": {
+              "titulli":   "Kujtimet e Jetës Politike",
+              "viti":      "1917",
+              "medium":    "Letërsi — Memoare",
+              "pershkrim": "Vëllim i kujtimirave politike ku Qemali rrëfen veprimtarinë e tij si diplomat europian dhe lider kombëtar shqiptar.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:05:00Z" }
+            },
+            "veper-002": {
+              "titulli":   "Flamuri i Pavarësisë",
+              "viti":      "1912",
+              "medium":    "Dokument Historik",
+              "pershkrim": "Deklarata origjinale e Pavarësisë së Shqipërisë lexuar nga Ismail Qemali në Vlorë më 28 Nëntor 1912.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:10:00Z" }
+            },
+            "veper-003": {
+              "titulli":   "Korrespondenca Diplomatike",
+              "viti":      "1885-1912",
+              "medium":    "Letërsi — Letra",
+              "pershkrim": "Koleksion letrash diplomatike dërguar qeverive europiane për çështjen shqiptare.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-naim-frasheri": {
+        "emri":       "Naim",
+        "mbiemri":    "Frashëri",
+        "lloji":      "Poet",
+        "lindja":     "1846",
+        "bio":        "Naim Frashëri (1846–1900) është poeti kombëtar i Shqipërisë dhe një nga figurat kryesore të Rilindjes Kombëtare. Lindi në Frashër të Përmetit. Veprat e tij poetike, të shkruara në shqip dhe persisht, shprehën idealet e lirisë kombëtare dhe dashurisë për atdheun.",
+        "fotoUrl":    "",
+        "qyteti":     "tirane",
+        "qytetiEmri": "Tiranë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    4,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-11T09:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-101": {
+              "titulli":   "Bagëti e Bujqësia",
+              "viti":      "1886",
+              "medium":    "Poezi",
+              "pershkrim": "Poema madhore ku Frashëri këndon bukuritë e natyrës shqiptare, jetën e bariut dhe bujkut, duke thurur në çdo varg dashurinë për Shqipërinë.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:05:00Z" }
+            },
+            "veper-102": {
+              "titulli":   "Histori e Skënderbeut",
+              "viti":      "1898",
+              "medium":    "Poezi — Epikë",
+              "pershkrim": "Poemë epike kushtuar heroizmit të Gjergj Kastrioti Skënderbeut, simbol i rezistencës shqiptare kundër pushtimit osman.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:10:00Z" }
+            },
+            "veper-103": {
+              "titulli":   "Luletë e Verës",
+              "viti":      "1890",
+              "medium":    "Poezi — Lirikë",
+              "pershkrim": "Koleksion lirikash me tema dashurie, natyre dhe nostalgjie. Shprehje e ndjenjave intime të poetit.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:15:00Z" }
+            },
+            "veper-104": {
+              "titulli":   "Fletorja e Bektashinjvet",
+              "viti":      "1896",
+              "medium":    "Poezi — Mistike",
+              "pershkrim": "Vepër poetike me ndikim sufi bektashi, që bashkon traditat shpirtërore orientale me dashurinë për kombin.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:20:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-ibrahim-kodra": {
+        "emri":       "Ibrahim",
+        "mbiemri":    "Kodra",
+        "lloji":      "Piktor",
+        "lindja":     "1918",
+        "bio":        "Ibrahim Kodra (1918–2006) ishte piktor shqiptar me famë ndërkombëtare. I lindur në Shkodër, u diplomua në Milano dhe jetoi shumicën e jetës në Itali. Piktura e tij surreale, me ngjyra të çezme dhe figura onirike, e ka bërë atë një nga artistët shqiptarë më të njohur jashtë vendit.",
+        "fotoUrl":    "",
+        "qyteti":     "shkoder",
+        "qytetiEmri": "Shkodër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-12T11:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-201": {
+              "titulli":   "Kalorësi Fantastik",
+              "viti":      "1968",
+              "medium":    "Pikturë — Vaj mbi kanavacë",
+              "pershkrim": "Kompozim surrealist me ngjyra të ndezura. Figura kalorësi mbi kon si metaforë e lirisë dhe endrrave.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:05:00Z" }
+            },
+            "veper-202": {
+              "titulli":   "Femra me Lule",
+              "viti":      "1975",
+              "medium":    "Pikturë — Vaj mbi kanavacë",
+              "pershkrim": "Portret femëror me elementë florale dekorativë. Stili i Kodrës bashkon naivizmin me surrealizmin.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:10:00Z" }
+            },
+            "veper-203": {
+              "titulli":   "Qyteti Onirik",
+              "viti":      "1982",
+              "medium":    "Pikturë — Akuarel",
+              "pershkrim": "Pamje urbane e ëndërruar ku arkitektura tradicionale shqiptare shkrihet me botën e imagjinatës.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-abdurrahim-buza": {
+        "emri":       "Abdurrahim",
+        "mbiemri":    "Buza",
+        "lloji":      "Piktor",
+        "lindja":     "1905",
+        "bio":        "Abdurrahim Buza (1905–1986) konsiderohet themelues i pikturës realiste shqiptare. Shkodran i lindur, studioi në Romë dhe Vjenë. Portretat e tij të mëdha, skenat e jetës popullore dhe peizazhet janë pasuri e paçmuar e artit kombëtar.",
+        "fotoUrl":    "",
+        "qyteti":     "shkoder",
+        "qytetiEmri": "Shkodër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-13T09:30:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-301": {
+              "titulli":   "Portret Gruaje Shkodrane",
+              "viti":      "1938",
+              "medium":    "Pikturë — Vaj mbi kanavacë",
+              "pershkrim": "Portret i gruas shkodrane me veshje tradicionale. Realizëm i thellë psikologjik me teknikë të rafinuar.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-13T09:35:00Z" }
+            },
+            "veper-302": {
+              "titulli":   "Liqeni i Shkodrës",
+              "viti":      "1955",
+              "medium":    "Pikturë — Vaj mbi kanavacë",
+              "pershkrim": "Peizazh i Liqenit të Shkodrës me lumin Buna. Tonalitete të ftohta blu-argjendtë reflektojnë qiellin malësor.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-13T09:40:00Z" }
+            },
+            "veper-303": {
+              "titulli":   "Tregu i Vjetër",
+              "viti":      "1962",
+              "medium":    "Pikturë — Gouache",
+              "pershkrim": "Skenë e tregut tradicional shkodran me ngjyra okër dhe kafe. Tipologji të shumta njerëzish në lëvizje.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-13T09:45:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-isuf-sulovari": {
+        "emri":       "Isuf",
+        "mbiemri":    "Sulovari",
+        "lloji":      "Muzikant",
+        "lindja":     "1927",
+        "bio":        "Isuf Sulovari (1927–2007) ishte iso-polifonist dhe mbartës i madh i iso-polifonisë së Gjirokastrës. Zëri i tij bas i thellë dhe kontributi në ruajtjen e polifonisë — listuar nga UNESCO si Trashëgimi Kulturore Jomateriale — e bëjnë atë figurë unike.",
+        "fotoUrl":    "",
+        "qyteti":     "gjirokaster",
+        "qytetiEmri": "Gjirokastër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-14T14:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-401": {
+              "titulli":   "Iso-polifonia e Labërisë",
+              "viti":      "1978",
+              "medium":    "Muzikë — Regjistrim audio",
+              "pershkrim": "Regjistrim i grupeve polifonike të Gjirokastrës. Katër zëra: ia, marrësi, kthyesi dhe iso. Ruajtur nga Arkivi Shtetëror.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-14T14:05:00Z" }
+            },
+            "veper-402": {
+              "titulli":   "Këngë Popullore të Jugut",
+              "viti":      "1985",
+              "medium":    "Muzikë — Albumi",
+              "pershkrim": "Koleksion këngësh popullore të Labërisë, Myzeqesë dhe Çamërisë. Interpretim autentik me instrumente tradicionale.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-14T14:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-foto-strazimiri": {
+        "emri":       "Foto",
+        "mbiemri":    "Strazimiri",
+        "lloji":      "Muzikant",
+        "lindja":     "1872",
+        "bio":        "Foto Strazimiri (1872–1941) ishte kompozitor dhe mbledhës i muzikës popullore shqiptare. Nga Korça, ai mblodhi dhe transkriptoi mbi 200 melodi popullore. Kompozimet e tij për fyell dhe lahutë janë ndër veprat e para të muzikës klasike shqiptare.",
+        "fotoUrl":    "",
+        "qyteti":     "korce",
+        "qytetiEmri": "Korçë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-15T10:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-501": {
+              "titulli":   "Muzika Popullore Shqiptare",
+              "viti":      "1924",
+              "medium":    "Muzikë — Koleksion i transkriptuar",
+              "pershkrim": "200 melodi popullore të kolektuara nga e gjithë Shqipëria, transkriptuar për piano dhe instrumente frymore.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-15T10:05:00Z" }
+            },
+            "veper-502": {
+              "titulli":   "Suitë Korçare",
+              "viti":      "1935",
+              "medium":    "Muzikë — Kompozim klasik",
+              "pershkrim": "Suitë për orkestrë dhomëzake e frymëzuar nga meloditë e qytetit të Korçës. Tre lëvizje: Allegretto, Andante, Vivace.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-15T10:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-stavri-dico": {
+        "emri":       "Stavri",
+        "mbiemri":    "Dico",
+        "lloji":      "Skulptor",
+        "lindja":     "1924",
+        "bio":        "Stavri Dico (1924–2004) ishte skulptori më i shquar i realizmit socialist shqiptar. Veprat e tij monumentale zbukurojnë sheshet kryesore të Tiranës dhe qyteteve të tjera. Studioi në Bukuresht dhe Moskë, duke bashkuar akademizmin me simbolikën kombëtare.",
+        "fotoUrl":    "",
+        "qyteti":     "tirane",
+        "qytetiEmri": "Tiranë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-16T13:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-601": {
+              "titulli":   "Skënderbeu — Monumenti Kombëtar",
+              "viti":      "1968",
+              "medium":    "Skulpturë — Bronz",
+              "pershkrim": "Monumenti ekuestër i Gjergj Kastrioti Skënderbeut në sheshin kryesor të Tiranës. Lartësia totale 12 m. Simbol i shtetit shqiptar.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-16T13:05:00Z" }
+            },
+            "veper-602": {
+              "titulli":   "Nëna Shqipëri",
+              "viti":      "1971",
+              "medium":    "Skulpturë — Guri i bardhë",
+              "pershkrim": "Figurë alegorike femëror që personifikon Shqipërinë. Vendosur në Parkun Kombëtar të Tiranës. Lartësia 7 m.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-16T13:10:00Z" }
+            },
+            "veper-603": {
+              "titulli":   "Relievi i Kosovës",
+              "viti":      "1989",
+              "medium":    "Skulpturë — Reliev bronzi",
+              "pershkrim": "Paneli i madh i bronzit kushtuar lidhjes historike Shqipëri-Kosovë. Skenë epike me 40 figura njerëzore.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-16T13:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-sadik-spahia": {
+        "emri":       "Sadik",
+        "mbiemri":    "Spahia",
+        "lloji":      "Fotograf",
+        "lindja":     "1962",
+        "bio":        "Sadik Spahia (l. 1962) është fotografi dokumentar shqiptar i gjeneratës së tranzicionit. Punën e ka fokusuar tek ndryshimet sociale të viteve 1990–2010: emigrimi, varfëria urbane dhe transformimi i hapësirave qytetare. Veprat e tij janë ekspozuar në Bienalen e Venecias dhe galeritë europiane.",
+        "fotoUrl":    "",
+        "qyteti":     "durres",
+        "qytetiEmri": "Durrës",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-17T15:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-701": {
+              "titulli":   "Exodus 1991",
+              "viti":      "1991",
+              "medium":    "Fotografi — Barra-e-bardhë",
+              "pershkrim": "Seri fotografike e anijeve të mbingarkuara me emigrantë shqiptarë. Porto Romano, Durrës, Mars 1991. 35 mm film.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-17T15:05:00Z" }
+            },
+            "veper-702": {
+              "titulli":   "Shtëpitë e Piramidës",
+              "viti":      "1998",
+              "medium":    "Fotografi — Ngjyra",
+              "pershkrim": "Seri e banesave të improvizuara rreth Piramidës së Tiranës gjatë viteve të kaosit. 50 fotografi. Botuar si monografi.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-17T15:10:00Z" }
+            },
+            "veper-703": {
+              "titulli":   "Porti i Durrësit",
+              "viti":      "2005",
+              "medium":    "Fotografi — Ngjyra",
+              "pershkrim": "Portret dokumentar i punëtorëve të portit të Durrësit. Jeta e përditshme, puna dhe qetësia midis lëvizjes.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-17T15:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-pjetro-marubi": {
+        "emri":       "Pjetro",
+        "mbiemri":    "Marubi",
+        "lloji":      "Fotograf",
+        "lindja":     "1834",
+        "bio":        "Pjetro Marubi (1834–1903) ishte fotografi i parë shqiptar dhe themelues i studiove fotografike Marubi në Shkodër. Italian i lindur si Pietro Marubbi, u vendos në Shkodër dhe i dhuroi artit fotografik Shqipërisë. Fondi Marubi me mbi 150.000 negative është trashëgimia më e çmuar vizuale e Shqipërisë.",
+        "fotoUrl":    "",
+        "qyteti":     "shkoder",
+        "qytetiEmri": "Shkodër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-18T10:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-801": {
+              "titulli":   "Portret i Rilindjes",
+              "viti":      "1880",
+              "medium":    "Fotografi — Albumin print",
+              "pershkrim": "Koleksion portretesh të intelektualëve shqiptarë të Rilindjes Kombëtare. Format 18×24 cm. Platë qelqi.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-18T10:05:00Z" }
+            },
+            "veper-802": {
+              "titulli":   "Shkodra e Vitit 1870",
+              "viti":      "1870",
+              "medium":    "Fotografi — Albuminë",
+              "pershkrim": "Panoramë fotografike e Shkodrës me Kalasë, Pazarin e Vjetër dhe rrugët e gurta. Ndër fotografitë e para urbane shqiptare.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-18T10:10:00Z" }
+            },
+            "veper-803": {
+              "titulli":   "Typi i Alpeve",
+              "viti":      "1890",
+              "medium":    "Fotografi — Albumin print",
+              "pershkrim": "Seri portretesh malësorësh veriorë me veshjet tradicionale. Dokumentim i rrallë etnografik.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-18T10:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-aleksandër-moisiu": {
+        "emri":       "Aleksandër",
+        "mbiemri":    "Moisiu",
+        "lloji":      "Aktor",
+        "lindja":     "1879",
+        "bio":        "Aleksandër Moisiu (1879–1935) ishte aktori shqiptar me famë botërore. I lindur në Durrës, u bë njëri nga aktorët tragikë më të mëdhenj të shekullit XX. Bashkëpunoi me Max Reinhardt dhe Konstantin Stanislavski. Roli i tij si Hamlet dhe Faust u konsideruan referenca europiane.",
+        "fotoUrl":    "",
+        "qyteti":     "durres",
+        "qytetiEmri": "Durrës",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-19T11:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-901": {
+              "titulli":   "Hamlet — Berliner Theater",
+              "viti":      "1909",
+              "medium":    "Teatër — Dokumentacion",
+              "pershkrim": "Afishe dhe recensione të paraqitjes së Hamletit në Berliner Theater nën drejtimin e Max Reinhardt. Shfaqja u citua nga kritika gjermane si 'rivolucionare'.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-19T11:05:00Z" }
+            },
+            "veper-902": {
+              "titulli":   "Mein Weg — Autobiografia",
+              "viti":      "1930",
+              "medium":    "Letërsi — Autobiografi",
+              "pershkrim": "Kujtimet e Moisius mbi karrierën e tij europiane, takim me personalitete si Einstein, Thomas Mann dhe Freud.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-19T11:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-vath-koreshi": {
+        "emri":       "Vath",
+        "mbiemri":    "Koreshi",
+        "lloji":      "Regjisor",
+        "lindja":     "1956",
+        "bio":        "Vath Koreshi (l. 1956) është regjisori i teatrit dhe filmit shqiptar. Studioi regji në Moskë (VGIK). Filmat e tij eksploruan realitetin shqiptar post-komunist me një sy artistik të guximshëm. 'Kolonel Bunker' (1996) fitoi çmime ndërkombëtare dhe u konsiderua nga kritika si kryevepër e kinematografisë shqiptare.",
+        "fotoUrl":    "",
+        "qyteti":     "tirane",
+        "qytetiEmri": "Tiranë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    3,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-20T12:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1001": {
+              "titulli":   "Kolonel Bunker",
+              "viti":      "1996",
+              "medium":    "Film — Drama",
+              "pershkrim": "Film i gjatë mbi paranojën e regjimit komunist të Enver Hoxhës dhe ndërtimin e bunkerëve. Fitoi Çmimin Special të Jurisë në Festivalin e Tiranës.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-20T12:05:00Z" }
+            },
+            "veper-1002": {
+              "titulli":   "Slogans",
+              "viti":      "2001",
+              "medium":    "Film — Drama",
+              "pershkrim": "Film mbi absurditetin e propagandës komuniste nëpërmjet historisë së ndërtimit të slloganeve malore. Çmim Caméra d'Or — Cannes 2001.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-20T12:10:00Z" }
+            },
+            "veper-1003": {
+              "titulli":   "Tirana Viti Zero",
+              "viti":      "2008",
+              "medium":    "Teatër — Spektakël",
+              "pershkrim": "Spektakël teatral mbi transformimin e Tiranës nga komunizmi te kapitalizmi. Bashkëproduksion me Teatrin Nacional.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-20T12:15:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-lazgush-poradeci": {
+        "emri":       "Lazgush",
+        "mbiemri":    "Poradeci",
+        "lloji":      "Poet",
+        "lindja":     "1899",
+        "bio":        "Lazgush Poradeci (1899–1987) është ndër poetët lirikë më të mëdhenj shqiptarë. I lindur në Pogradec, studioi në Rumani dhe Austri. Poezia e tij ku bashkohet simbolizmi europian me ndjenjën e thellë shqiptare e bën atë figurën kryesore të modernazmit poetik shqiptar.",
+        "fotoUrl":    "",
+        "qyteti":     "pogradec",
+        "qytetiEmri": "Pogradec",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-21T10:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1101": {
+              "titulli":   "Vallja e Yjeve",
+              "viti":      "1933",
+              "medium":    "Poezi — Libër",
+              "pershkrim": "Koleksion i parë i poezive ku Poradeci shfaq simbolizmin e tij unik. Imazhet e Ohrit, qiellit dhe ujit janë metafora qendrore.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-21T10:05:00Z" }
+            },
+            "veper-1102": {
+              "titulli":   "Ylli i Zemrës",
+              "viti":      "1937",
+              "medium":    "Poezi — Libër",
+              "pershkrim": "Vëllimi i dytë dhe kryevepra e Poradecit. Poema 'Moj e bukura Morë' është ndër veprat lirike më të famshme shqiptare.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-21T10:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-spiro-xega": {
+        "emri":       "Spiro",
+        "mbiemri":    "Xega",
+        "lloji":      "Piktor",
+        "lindja":     "1909",
+        "bio":        "Spiro Xega (1909–1953) ishte piktor karikaturist dhe ilustrator. Gjirokastrit i lindur, punoi kryesisht si karikaturist satirik. Veprat e tij kritikuan gjendjen shoqërore me humor të hollë dhe vizatim të saktë. Vdiq herët, por la një trashëgimi të rëndësishme grafikore.",
+        "fotoUrl":    "",
+        "qyteti":     "gjirokaster",
+        "qytetiEmri": "Gjirokastër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-22T14:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1201": {
+              "titulli":   "Karikatura Satirike",
+              "viti":      "1940-1950",
+              "medium":    "Grafika — Bojë e zezë",
+              "pershkrim": "Koleksion karikaturash satirike botuar në gazeta dhe revistat e periudhës. Kritikë shoqërore me humor kaustik.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-22T14:05:00Z" }
+            },
+            "veper-1202": {
+              "titulli":   "Ilustrime për Fëmijë",
+              "viti":      "1950",
+              "medium":    "Grafika — Ilustrim",
+              "pershkrim": "Ilustrime për librat shkollore shqiptarë. Stil naiv me ngjyra të buta. Ndër punët e para edukative grafike shqiptare.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-22T14:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-mihal-grameno": {
+        "emri":       "Mihal",
+        "mbiemri":    "Grameno",
+        "lloji":      "Shkrimtar",
+        "lindja":     "1872",
+        "bio":        "Mihal Grameno (1872–1931) ishte publicist, dramaturg dhe patriot nga Korça. Themeloi dhe drejtoi gazetën 'Liria' dhe gazeta të tjera në emigracion. Dramat e tij historike si 'Skënderbeu' janë ndër veprat e para teatrale origjinale shqiptare.",
+        "fotoUrl":    "",
+        "qyteti":     "korce",
+        "qytetiEmri": "Korçë",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-23T09:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1301": {
+              "titulli":   "Skënderbeu — Drama Historike",
+              "viti":      "1908",
+              "medium":    "Dramaturgjia",
+              "pershkrim": "Dramë historike në pesë akte kushtuar Gjergj Kastrioti Skënderbeut. Shfaqja e parë u dha në Korçë. Ndër dramat e para origjinale shqiptare.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-23T09:05:00Z" }
+            },
+            "veper-1302": {
+              "titulli":   "Kryengritja Shqiptare",
+              "viti":      "1925",
+              "medium":    "Letërsi — Histori",
+              "pershkrim": "Kronikë historike mbi kryengritjet e viteve 1910-1912 kundër pushtimit osman. Bazuar mbi dokumenta dhe dëshmi direkte.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-23T09:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-andon-zako-cajupi": {
+        "emri":       "Andon Zako",
+        "mbiemri":    "Çajupi",
+        "lloji":      "Poet",
+        "lindja":     "1866",
+        "bio":        "Andon Zako Çajupi (1866–1930) ishte poet dhe dramaturg i Rilindjes. I lindur në Sheper të Gjirokastrës, jetoi dhe punoi shumicën e jetës në Egjipt. Poezia e tij satirike dhe humoristike — veçanërisht 'Baba Tomorri' — e vendosi ndër zërat e mëdhenj të letërsisë shqiptare.",
+        "fotoUrl":    "",
+        "qyteti":     "gjirokaster",
+        "qytetiEmri": "Gjirokastër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-24T11:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1401": {
+              "titulli":   "Baba Tomorri",
+              "viti":      "1902",
+              "medium":    "Poezi — Libër",
+              "pershkrim": "Vëllimi kryesor poetik i Çajupit. Poezi satirike, humoristike dhe patriotike. Titullohet sipas malit të shenjtë Tomorr të Shqipërisë.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-24T11:05:00Z" }
+            },
+            "veper-1402": {
+              "titulli":   "14 Vjeç Dhëndër",
+              "viti":      "1902",
+              "medium":    "Dramaturgjia — Komedi",
+              "pershkrim": "Komedi satirike mbi zakonin e martesave të parakohshme. Ndër komeditë e para origjinale shqiptare me karakter social-kritik.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-24T11:10:00Z" }
+            }
+          }
+        }
+      },
+
+      "artist-gjergj-pekmezi": {
+        "emri":       "Gjergj",
+        "mbiemri":    "Pekmezi",
+        "lloji":      "Shkrimtar",
+        "lindja":     "1872",
+        "bio":        "Gjergj Pekmezi (1872–1938) ishte gjuhëtar dhe pedagog nga Shkodra. Profesor i gjuhës shqipe në Vjenë, kontribuoi thellësisht në standardizimin e gjuhës letrare shqipe dhe hartimin e gramatikave dhe fjalorëve. Veprat e tij gjuhësore janë referenca shkencore edhe sot.",
+        "fotoUrl":    "",
+        "qyteti":     "shkoder",
+        "qytetiEmri": "Shkodër",
+        "shtuesId":   "demo-admin-001",
+        "shtuesEmri": "Demo Admin",
+        "vepraNr":    2,
+        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-25T10:00:00Z" },
+        "__collections__": {
+          "veprat": {
+            "veper-1501": {
+              "titulli":   "Gramatika e Gjuhës Shqipe",
+              "viti":      "1908",
+              "medium":    "Gjuhësia — Tekst akademik",
+              "pershkrim": "Gramatika e parë shkencore e gjuhës shqipe e shkruar në gjermanisht. Botuar në Vjenë dhe përdorur si referencë nga gjuhëtarët europianë.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-25T10:05:00Z" }
+            },
+            "veper-1502": {
+              "titulli":   "Fjalori Shqip-Gjermanisht",
+              "viti":      "1913",
+              "medium":    "Gjuhësia — Fjalor",
+              "pershkrim": "Fjalori dygjuhësh shqip-gjermanisht me mbi 15.000 zëra. Kontribut madhor në standardizimin e fjalorit shqip.",
+              "imazhet":   [],
+              "shtuesId":  "demo-admin-001",
+              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-25T10:10:00Z" }
+            }
+          }
+        }
+      }
+
+    }
+  }
+}

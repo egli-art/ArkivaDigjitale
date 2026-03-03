@@ -1,0 +1,273 @@
+[33mcommit 0a93a333fdccc7b304e743723d7af62d5616ade3[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: egli-art <yzeiriegli@gmail.com>
+Date:   Tue Mar 3 03:30:29 2026 +0100
+
+    update map
+
+[1mdiff --git a/.gitignore b/.gitignore[m
+[1mindex b5ad1a5..ebf284e 100644[m
+[1m--- a/.gitignore[m
+[1m+++ b/.gitignore[m
+[36m@@ -3,3 +3,8 @@[m [mdist/[m
+ .angular/[m
+ *.log[m
+ .env[m
+[32m+[m
+[32m+[m[32m# Firebase[m
+[32m+[m[32m.firebase[m
+[32m+[m[32m*-debug.log[m
+[32m+[m[32m.runtimeconfig.json[m
+[1mdiff --git a/.idea/watcherTasks.xml b/.idea/watcherTasks.xml[m
+[1mnew file mode 100644[m
+[1mindex 0000000..4201403[m
+[1m--- /dev/null[m
+[1m+++ b/.idea/watcherTasks.xml[m
+[36m@@ -0,0 +1,25 @@[m
+[32m+[m[32m<?xml version="1.0" encoding="UTF-8"?>[m
+[32m+[m[32m<project version="4">[m
+[32m+[m[32m  <component name="ProjectTasksOptions">[m
+[32m+[m[32m    <TaskOptions isEnabled="false">[m
+[32m+[m[32m      <option name="arguments" value="$FileName$:$FileNameWithoutExtension$.css" />[m
+[32m+[m[32m      <option name="checkSyntaxErrors" value="true" />[m
+[32m+[m[32m      <option name="description" />[m
+[32m+[m[32m      <option name="exitCodeBehavior" value="ERROR" />[m
+[32m+[m[32m      <option name="fileExtension" value="scss" />[m
+[32m+[m[32m      <option name="immediateSync" value="true" />[m
+[32m+[m[32m      <option name="name" value="SCSS" />[m
+[32m+[m[32m      <option name="output" value="$FileNameWithoutExtension$.css:$FileNameWithoutExtension$.css.map" />[m
+[32m+[m[32m      <option name="outputFilters">[m
+[32m+[m[32m        <array />[m
+[32m+[m[32m      </option>[m
+[32m+[m[32m      <option name="outputFromStdout" value="false" />[m
+[32m+[m[32m      <option name="program" value="sass" />[m
+[32m+[m[32m      <option name="runOnExternalChanges" value="true" />[m
+[32m+[m[32m      <option name="scopeName" value="Project Files" />[m
+[32m+[m[32m      <option name="trackOnlyRoot" value="true" />[m
+[32m+[m[32m      <option name="workingDir" value="$FileDir$" />[m
+[32m+[m[32m      <envs />[m
+[32m+[m[32m    </TaskOptions>[m
+[32m+[m[32m  </component>[m
+[32m+[m[32m</project>[m
+\ No newline at end of file[m
+[1mdiff --git a/arkiva-digjitale-seed.json b/arkiva-digjitale-seed.json[m
+[1mnew file mode 100644[m
+[1mindex 0000000..9a3d41f[m
+[1m--- /dev/null[m
+[1m+++ b/arkiva-digjitale-seed.json[m
+[36m@@ -0,0 +1,708 @@[m
+[32m+[m[32m{[m
+[32m+[m[32m  "__collections__": {[m
+[32m+[m
+[32m+[m[32m    "perdoruesit": {[m
+[32m+[m[32m      "demo-admin-001": {[m
+[32m+[m[32m        "uid":       "demo-admin-001",[m
+[32m+[m[32m        "emri":      "Demo",[m
+[32m+[m[32m        "mbiemri":   "Admin",[m
+[32m+[m[32m        "emriPlote": "Demo Admin",[m
+[32m+[m[32m        "email":     "demo@arkiva.al",[m
+[32m+[m[32m        "roli":      "artist",[m
+[32m+[m[32m        "bio":       "Llogari demo për testim. Mund të shtosh artistë dhe të ngarkosh vepra.",[m
+[32m+[m[32m        "avatarUrl": "",[m
+[32m+[m[32m        "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-01T00:00:00Z" },[m
+[32m+[m[32m        "__collections__": {}[m
+[32m+[m[32m      },[m
+[32m+[m[32m      "viewer-001": {[m
+[32m+[m[32m        "uid":       "viewer-001",[m
+[32m+[m[32m        "emri":      "Shikues",[m
+[32m+[m[32m        "mbiemri":   "Demo",[m
+[32m+[m[32m        "emriPlote": "Shikues Demo",[m
+[32m+[m[32m        "email":     "shikues@arkiva.al",[m
+[32m+[m[32m        "roli":      "shikues",[m
+[32m+[m[32m        "bio":       "",[m
+[32m+[m[32m        "avatarUrl": "",[m
+[32m+[m[32m        "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-02T00:00:00Z" },[m
+[32m+[m[32m        "__collections__": {}[m
+[32m+[m[32m      }[m
+[32m+[m[32m    },[m
+[32m+[m
+[32m+[m[32m    "artistet": {[m
+[32m+[m
+[32m+[m[32m      "artist-ismail-qemali": {[m
+[32m+[m[32m        "emri":       "Ismail",[m
+[32m+[m[32m        "mbiemri":    "Qemali",[m
+[32m+[m[32m        "lloji":      "Shkrimtar",[m
+[32m+[m[32m        "lindja":     "1844",[m
+[32m+[m[32m        "bio":        "Ismail Qemali (1844–1919) ishte një burrë shteti, diplomat dhe patriot shqiptar. Ai shpalli pavarësinë e Shqipërisë më 28 Nëntor 1912 në Vlorë dhe u bë kryeministri i parë i shtetit shqiptar. Veprimtaria e tij letrare dhe politike la gjurmë të thella në historinë kombëtare.",[m
+[32m+[m[32m        "fotoUrl":    "",[m
+[32m+[m[32m        "qyteti":     "vlore",[m
+[32m+[m[32m        "qytetiEmri": "Vlorë",[m
+[32m+[m[32m        "shtuesId":   "demo-admin-001",[m
+[32m+[m[32m        "shtuesEmri": "Demo Admin",[m
+[32m+[m[32m        "vepraNr":    3,[m
+[32m+[m[32m        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-10T10:00:00Z" },[m
+[32m+[m[32m        "__collections__": {[m
+[32m+[m[32m          "veprat": {[m
+[32m+[m[32m            "veper-001": {[m
+[32m+[m[32m              "titulli":   "Kujtimet e Jetës Politike",[m
+[32m+[m[32m              "viti":      "1917",[m
+[32m+[m[32m              "medium":    "Letërsi — Memoare",[m
+[32m+[m[32m              "pershkrim": "Vëllim i kujtimirave politike ku Qemali rrëfen veprimtarinë e tij si diplomat europian dhe lider kombëtar shqiptar.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:05:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-002": {[m
+[32m+[m[32m              "titulli":   "Flamuri i Pavarësisë",[m
+[32m+[m[32m              "viti":      "1912",[m
+[32m+[m[32m              "medium":    "Dokument Historik",[m
+[32m+[m[32m              "pershkrim": "Deklarata origjinale e Pavarësisë së Shqipërisë lexuar nga Ismail Qemali në Vlorë më 28 Nëntor 1912.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:10:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-003": {[m
+[32m+[m[32m              "titulli":   "Korrespondenca Diplomatike",[m
+[32m+[m[32m              "viti":      "1885-1912",[m
+[32m+[m[32m              "medium":    "Letërsi — Letra",[m
+[32m+[m[32m              "pershkrim": "Koleksion letrash diplomatike dërguar qeverive europiane për çështjen shqiptare.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-10T10:15:00Z" }[m
+[32m+[m[32m            }[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+[32m+[m[32m      },[m
+[32m+[m
+[32m+[m[32m      "artist-naim-frasheri": {[m
+[32m+[m[32m        "emri":       "Naim",[m
+[32m+[m[32m        "mbiemri":    "Frashëri",[m
+[32m+[m[32m        "lloji":      "Poet",[m
+[32m+[m[32m        "lindja":     "1846",[m
+[32m+[m[32m        "bio":        "Naim Frashëri (1846–1900) është poeti kombëtar i Shqipërisë dhe një nga figurat kryesore të Rilindjes Kombëtare. Lindi në Frashër të Përmetit. Veprat e tij poetike, të shkruara në shqip dhe persisht, shprehën idealet e lirisë kombëtare dhe dashurisë për atdheun.",[m
+[32m+[m[32m        "fotoUrl":    "",[m
+[32m+[m[32m        "qyteti":     "tirane",[m
+[32m+[m[32m        "qytetiEmri": "Tiranë",[m
+[32m+[m[32m        "shtuesId":   "demo-admin-001",[m
+[32m+[m[32m        "shtuesEmri": "Demo Admin",[m
+[32m+[m[32m        "vepraNr":    4,[m
+[32m+[m[32m        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-11T09:00:00Z" },[m
+[32m+[m[32m        "__collections__": {[m
+[32m+[m[32m          "veprat": {[m
+[32m+[m[32m            "veper-101": {[m
+[32m+[m[32m              "titulli":   "Bagëti e Bujqësia",[m
+[32m+[m[32m              "viti":      "1886",[m
+[32m+[m[32m              "medium":    "Poezi",[m
+[32m+[m[32m              "pershkrim": "Poema madhore ku Frashëri këndon bukuritë e natyrës shqiptare, jetën e bariut dhe bujkut, duke thurur në çdo varg dashurinë për Shqipërinë.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:05:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-102": {[m
+[32m+[m[32m              "titulli":   "Histori e Skënderbeut",[m
+[32m+[m[32m              "viti":      "1898",[m
+[32m+[m[32m              "medium":    "Poezi — Epikë",[m
+[32m+[m[32m              "pershkrim": "Poemë epike kushtuar heroizmit të Gjergj Kastrioti Skënderbeut, simbol i rezistencës shqiptare kundër pushtimit osman.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:10:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-103": {[m
+[32m+[m[32m              "titulli":   "Luletë e Verës",[m
+[32m+[m[32m              "viti":      "1890",[m
+[32m+[m[32m              "medium":    "Poezi — Lirikë",[m
+[32m+[m[32m              "pershkrim": "Koleksion lirikash me tema dashurie, natyre dhe nostalgjie. Shprehje e ndjenjave intime të poetit.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:15:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-104": {[m
+[32m+[m[32m              "titulli":   "Fletorja e Bektashinjvet",[m
+[32m+[m[32m              "viti":      "1896",[m
+[32m+[m[32m              "medium":    "Poezi — Mistike",[m
+[32m+[m[32m              "pershkrim": "Vepër poetike me ndikim sufi bektashi, që bashkon traditat shpirtërore orientale me dashurinë për kombin.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-11T09:20:00Z" }[m
+[32m+[m[32m            }[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+[32m+[m[32m      },[m
+[32m+[m
+[32m+[m[32m      "artist-ibrahim-kodra": {[m
+[32m+[m[32m        "emri":       "Ibrahim",[m
+[32m+[m[32m        "mbiemri":    "Kodra",[m
+[32m+[m[32m        "lloji":      "Piktor",[m
+[32m+[m[32m        "lindja":     "1918",[m
+[32m+[m[32m        "bio":        "Ibrahim Kodra (1918–2006) ishte piktor shqiptar me famë ndërkombëtare. I lindur në Shkodër, u diplomua në Milano dhe jetoi shumicën e jetës në Itali. Piktura e tij surreale, me ngjyra të çezme dhe figura onirike, e ka bërë atë një nga artistët shqiptarë më të njohur jashtë vendit.",[m
+[32m+[m[32m        "fotoUrl":    "",[m
+[32m+[m[32m        "qyteti":     "shkoder",[m
+[32m+[m[32m        "qytetiEmri": "Shkodër",[m
+[32m+[m[32m        "shtuesId":   "demo-admin-001",[m
+[32m+[m[32m        "shtuesEmri": "Demo Admin",[m
+[32m+[m[32m        "vepraNr":    3,[m
+[32m+[m[32m        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-12T11:00:00Z" },[m
+[32m+[m[32m        "__collections__": {[m
+[32m+[m[32m          "veprat": {[m
+[32m+[m[32m            "veper-201": {[m
+[32m+[m[32m              "titulli":   "Kalorësi Fantastik",[m
+[32m+[m[32m              "viti":      "1968",[m
+[32m+[m[32m              "medium":    "Pikturë — Vaj mbi kanavacë",[m
+[32m+[m[32m              "pershkrim": "Kompozim surrealist me ngjyra të ndezura. Figura kalorësi mbi kon si metaforë e lirisë dhe endrrave.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:05:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-202": {[m
+[32m+[m[32m              "titulli":   "Femra me Lule",[m
+[32m+[m[32m              "viti":      "1975",[m
+[32m+[m[32m              "medium":    "Pikturë — Vaj mbi kanavacë",[m
+[32m+[m[32m              "pershkrim": "Portret femëror me elementë florale dekorativë. Stili i Kodrës bashkon naivizmin me surrealizmin.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:10:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-203": {[m
+[32m+[m[32m              "titulli":   "Qyteti Onirik",[m
+[32m+[m[32m              "viti":      "1982",[m
+[32m+[m[32m              "medium":    "Pikturë — Akuarel",[m
+[32m+[m[32m              "pershkrim": "Pamje urbane e ëndërruar ku arkitektura tradicionale shqiptare shkrihet me botën e imagjinatës.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-12T11:15:00Z" }[m
+[32m+[m[32m            }[m
+[32m+[m[32m          }[m
+[32m+[m[32m        }[m
+[32m+[m[32m      },[m
+[32m+[m
+[32m+[m[32m      "artist-abdurrahim-buza": {[m
+[32m+[m[32m        "emri":       "Abdurrahim",[m
+[32m+[m[32m        "mbiemri":    "Buza",[m
+[32m+[m[32m        "lloji":      "Piktor",[m
+[32m+[m[32m        "lindja":     "1905",[m
+[32m+[m[32m        "bio":        "Abdurrahim Buza (1905–1986) konsiderohet themelues i pikturës realiste shqiptare. Shkodran i lindur, studioi në Romë dhe Vjenë. Portretat e tij të mëdha, skenat e jetës popullore dhe peizazhet janë pasuri e paçmuar e artit kombëtar.",[m
+[32m+[m[32m        "fotoUrl":    "",[m
+[32m+[m[32m        "qyteti":     "shkoder",[m
+[32m+[m[32m        "qytetiEmri": "Shkodër",[m
+[32m+[m[32m        "shtuesId":   "demo-admin-001",[m
+[32m+[m[32m        "shtuesEmri": "Demo Admin",[m
+[32m+[m[32m        "vepraNr":    3,[m
+[32m+[m[32m        "krijuarMe":  { "__datatype__": "timestamp", "value": "2024-01-13T09:30:00Z" },[m
+[32m+[m[32m        "__collections__": {[m
+[32m+[m[32m          "veprat": {[m
+[32m+[m[32m            "veper-301": {[m
+[32m+[m[32m              "titulli":   "Portret Gruaje Shkodrane",[m
+[32m+[m[32m              "viti":      "1938",[m
+[32m+[m[32m              "medium":    "Pikturë — Vaj mbi kanavacë",[m
+[32m+[m[32m              "pershkrim": "Portret i gruas shkodrane me veshje tradicionale. Realizëm i thellë psikologjik me teknikë të rafinuar.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-13T09:35:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-302": {[m
+[32m+[m[32m              "titulli":   "Liqeni i Shkodrës",[m
+[32m+[m[32m              "viti":      "1955",[m
+[32m+[m[32m              "medium":    "Pikturë — Vaj mbi kanavacë",[m
+[32m+[m[32m              "pershkrim": "Peizazh i Liqenit të Shkodrës me lumin Buna. Tonalitete të ftohta blu-argjendtë reflektojnë qiellin malësor.",[m
+[32m+[m[32m              "imazhet":   [],[m
+[32m+[m[32m              "shtuesId":  "demo-admin-001",[m
+[32m+[m[32m              "krijuarMe": { "__datatype__": "timestamp", "value": "2024-01-13T09:40:00Z" }[m
+[32m+[m[32m            },[m
+[32m+[m[32m            "veper-303": {[m
+[32m+[m[32m              "titulli":   "Tregu i Vjetër",[m
+[32m+[m[32m              "viti":      "1962",[m
+[32m+[m[32m              "medium":    "Pikturë — Gouache",[

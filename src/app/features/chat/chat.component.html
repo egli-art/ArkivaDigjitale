@@ -1,0 +1,19 @@
+<div class="chat-button" (click)="toggleChat()">💬</div>
+
+<div class="chat-modal" *ngIf="showChat">
+    <div class="chat-header">
+        <span>Arkiva AI Chat</span>
+        <button class="close-btn" (click)="toggleChat()">×</button>
+    </div>
+
+    <div class="chat-messages">
+        <div *ngFor="let msg of messages" [ngClass]="{'user-msg': msg.role==='user','ai-msg': msg.role==='ai'}">
+            {{ msg.content }}
+        </div>
+    </div>
+
+    <div class="chat-input">
+        <input type="text" [(ngModel)]="userMessage" placeholder="Shkruaj këtu..." (keyup.enter)="sendMessage()" />
+        <button (click)="sendMessage()">Send</button>
+    </div>
+</div>
