@@ -22,5 +22,21 @@ export const routes: Routes = [
     loadComponent: () => import('./features/artist/artist-detail/artist-detail.component').then(m => m.ArtistDetailComponent),
     canActivate: [authGuard]
   },
-  { path: '**', redirectTo: '' }
+    {
+        path: 'profile',
+        canActivate: [authGuard],
+        loadComponent: () => import('./features/profile/profile.component').then(m => m.ProfileComponent),
+    },
+    { path: '', redirectTo: 'map', pathMatch: 'full' },
+    {
+        path: '**',
+
+        loadComponent: () => import('./features/shared/not-found/not-found.component').then(m => m.NotFoundComponent),
+    },
+    // {
+    //     path: 'chat',
+    //     loadComponent: () => import('./features/chat/chat.component').then(m => m.ChatComponent),
+    // },
+
+{ path: '**', redirectTo: '' }
 ];

@@ -6,7 +6,7 @@ import { AuthService } from '../../core/services/auth.service';
 import { ToastService } from '../../core/services/toast.service';
 
 type Tab = 'login' | 'register';
-type Role = 'shikues' | 'artist';
+type Role = 'artist' | 'shikues';
 
 @Component({
   selector: 'app-auth',
@@ -21,6 +21,7 @@ export class AuthComponent {
   private toast   = inject(ToastService);
 
   tab = signal<Tab>('login');
+    currentYear = new Date().getFullYear();
 
   // Login
   loginEmail    = '';
@@ -37,7 +38,7 @@ export class AuthComponent {
   regErr      = '';
   regLoading  = false;
   showRegPwd  = false;
-  selectedRole: Role = 'shikues';
+  selectedRole: Role = 'artist';
   pwdStrength = 0;
   pwdLabel    = '';
   pwdColor    = '';

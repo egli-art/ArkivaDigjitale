@@ -3,3 +3,8 @@ dist/
 .angular/
 *.log
 .env
+
+# Firebase
+.firebase
+*-debug.log
+.runtimeconfig.json

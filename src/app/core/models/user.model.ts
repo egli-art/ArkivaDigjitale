@@ -1,6 +1,6 @@
 import { Timestamp } from '@angular/fire/firestore';
 
-export type UserRole = 'shikues' | 'artist';
+export type UserRole = 'artist' | 'shikues';
 
 export interface AppUser {
   uid: string;

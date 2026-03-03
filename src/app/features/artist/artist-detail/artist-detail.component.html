@@ -80,6 +80,10 @@
     <!-- Right: sidebar -->
     <div class="artist-sidebar">
       <div class="info-card">
+          <div class="photo-frame">
+              @if (artist()!.fotoUrl) { <img [src]="artist()!.fotoUrl" [alt]="artist()!.emri + ' ' + artist()!.mbiemri"/> }
+              @else { <div class="ph-init">{{ artist()!.emri[0] }}</div> }
+          </div>
         <div class="info-row">
           <span class="info-key">Qyteti</span>
           <span class="info-val">{{ cityName }}</span>

@@ -1,29 +1,77 @@
 <div class="map-page">
-  <div class="page-header">
-    <div>
-      <div class="page-title">Harta e Shqipërisë</div>
-      <div class="page-sub">Zgjidh një qytet për të eksploruar artistët</div>
-    </div>
-  </div>
 
-  <div class="map-wrapper">
-    <!-- Leaflet Map -->
-    <div id="albania-map"></div>
-
-    <!-- Side panel -->
-    <div class="side-panel">
-      <div class="side-header">
-        Qytetet &bull; {{ cities().length }}
-      </div>
-      <div class="city-list">
-        <div class="city-item" *ngFor="let c of cities()" (click)="goToCity(c.id)">
-          <div>
-            <div class="city-name">{{ c.name }}</div>
-            <div class="city-region">{{ c.region }}</div>
-          </div>
-          <div class="city-count">{{ c.count ?? 0 }}</div>
+  <!-- ── Sidebar ── -->
+  <aside class="sidebar">
+    <div class="sb-top">
+      <div class="sb-head">
+        <div>
+          <div class="eyebrow">Eksplorо</div>
+          <h1 class="display-title" style="font-size:1.3rem;margin-top:.3rem">Harta e Shqipërisë</h1>
         </div>
+        @if (!loading()) {
+          <div class="total">
+            <span class="total-n">{{ totalArtists() }}</span>
+            <span class="total-l">artistë</span>
+          </div>
+        }
+      </div>
+
+      <div class="search-wrap">
+        <svg class="s-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/>
+        </svg>
+        <input class="s-input" type="text" [(ngModel)]="search" placeholder="Kërko qytet…"/>
       </div>
     </div>
+
+    <div class="city-list">
+      @if (loading()) {
+        @for (_ of [1,2,3,4,5]; track $index) { <div class="skel"></div> }
+      } @else {
+        @for (c of filteredCities(); track c.id) {
+          <div class="city-row" (click)="goTo(c.id)">
+            <div class="cr-left">
+              <div class="cr-dot" [class.has]="(c.count ?? 0) > 0"></div>
+              <div>
+                <div class="cr-name">{{ c.name }}</div>
+                <div class="cr-region">{{ c.region }}</div>
+              </div>
+            </div>
+            <span class="cr-badge" [class.has]="(c.count ?? 0) > 0">{{ c.count ?? 0 }}</span>
+          </div>
+        }
+        @if (filteredCities().length === 0) {
+          <div class="no-results">Asnjë qytet për "<em>{{ search }}</em>"</div>
+        }
+      }
+    </div>
+  </aside>
+
+  <!-- ── Map area ── -->
+  <div class="map-wrap">
+
+    <!-- Map container is ALWAYS in DOM so Leaflet can find it -->
+    <div id="albania-map" [class.map-hidden]="!mapReady() && !mapError()"></div>
+
+    <!-- Loading overlay shown OVER the map div until Leaflet inits -->
+    @if (!mapReady() && !mapError()) {
+      <div class="map-loading">
+        <div class="spinner-gold"></div>
+        <span>Duke ngarkuar hartën…</span>
+      </div>
+    }
+
+    <!-- Error state -->
+    @if (mapError()) {
+      <div class="map-loading map-err">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity=".3">
+          <circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/>
+        </svg>
+        <p>Harta nuk mund të ngarkohej.</p>
+        <small>Kontrollo lidhjen me internetin.</small>
+        <button class="btn-ghost" style="margin-top:.75rem;font-size:.78rem" (click)="mapError.set(false); tryInitMap()">Provo Përsëri</button>
+      </div>
+    }
+
   </div>
 </div>
