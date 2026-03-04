@@ -1,0 +1,477 @@
+<!-- ADMIN PANEL — Arkiva Digjitale -->
+<div class="admin-shell">
+
+  <!-- ── Sidebar ────────────────────────────────────────────── -->
+  <aside class="sidebar">
+    <div class="sb-brand">
+      <div class="sb-logo" [routerLink]="['/']">
+        <svg width="18" height="18" viewBox="0 0 32 32" fill="none">
+          <path d="M7 9h18M7 16h12M7 23h15" stroke="#e8c97a" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div>
+        <div class="sb-title">Arkiva Admin</div>
+        <div class="sb-sub">Paneli i Administratorit</div>
+      </div>
+    </div>
+
+    <nav class="sb-nav">
+      <button class="sb-link" [class.on]="isTab('pending')" (click)="setTab('pending')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+        </svg>
+        <span>Regjistrime të Reja</span>
+        <span class="sb-badge" *ngIf="stats().pending > 0">{{ stats().pending }}</span>
+      </button>
+
+      <button class="sb-link" [class.on]="isTab('users')" (click)="setTab('users')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span>Të gjithë Përdoruesit</span>
+        <span class="sb-ct">{{ stats().total }}</span>
+      </button>
+
+      <button class="sb-link" [class.on]="isTab('artists')" (click)="setTab('artists')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <circle cx="12" cy="12" r="10"/>
+          <path d="M8.56 2.75c4.37 6.03 6.02 9.42 8.03 17.72m2.54-15.38c-3.72 4.35-8.94 5.66-16.88 5.85m19.5 1.9c-3.5-.93-6.63-.82-8.94 0-2.58.92-5.01 2.86-7.44 6.32"/>
+        </svg>
+        <span>Artistët</span>
+        <span class="sb-ct">{{ stats().artists }}</span>
+      </button>
+
+      <button class="sb-link" [class.on]="isTab('stats')" (click)="setTab('stats')">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6"  y1="20" x2="6"  y2="14"/>
+        </svg>
+        <span>Statistika</span>
+      </button>
+    </nav>
+
+    <div class="sb-footer">
+      <div class="sb-user">
+        <div class="sb-av">A</div>
+        <div class="sb-uinfo">
+          <div class="sb-uname">Administrator</div>
+          <div class="sb-urole">Admin</div>
+        </div>
+      </div>
+      <button class="sb-logout" (click)="logout()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </aside>
+
+  <!-- ── Main ───────────────────────────────────────────────── -->
+  <main class="admin-main">
+    <div class="full-load" *ngIf="loading()">
+      <div class="spin-lg"></div>
+      <p>Duke ngarkuar të dhënat...</p>
+    </div>
+
+    <ng-container *ngIf="!loading()">
+      <!-- Stats strip -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="sc-n">{{ stats().total }}</div>
+          <div class="sc-l">Gjithsej</div>
+        </div>
+        <div class="stat-card stat-card--warn" *ngIf="stats().pending > 0">
+          <div class="sc-n">{{ stats().pending }}</div>
+          <div class="sc-l">Në pritje</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-n">{{ stats().approved }}</div>
+          <div class="sc-l">Aprovuar</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-n">{{ stats().byRole.artist }}</div>
+          <div class="sc-l">Artistë</div>
+        </div>
+        <div class="stat-card stat-card--red" *ngIf="stats().banned > 0">
+          <div class="sc-n">{{ stats().banned }}</div>
+          <div class="sc-l">Bllokuar</div>
+        </div>
+        <div class="stat-card">
+          <div class="sc-n">{{ stats().artists }}</div>
+          <div class="sc-l">Profile artistësh</div>
+        </div>
+      </div>
+
+      <!-- ════ TAB: PENDING ════ -->
+      <section class="tab-section" *ngIf="isTab('pending')">
+        <div class="sec-head">
+          <div>
+            <h2 class="sec-title">Regjistrime të Reja</h2>
+            <p class="sec-desc">Pas aprovimit, artistit i dërgohet email automatikisht.</p>
+          </div>
+          <div class="head-actions" *ngIf="pendingUsers().length > 0">
+            <button class="btn-sm btn-outline" (click)="selectAllPending()">Zgjidh të gjithë ({{ pendingUsers().length }})</button>
+            <button class="btn-sm btn-green" *ngIf="selectedUids().size > 0" (click)="bulkApprove()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              Aprovo ({{ selectedUids().size }})
+            </button>
+            <button class="btn-sm btn-ghost" *ngIf="selectedUids().size > 0" (click)="clearSelection()">Anulo</button>
+          </div>
+        </div>
+
+        <div class="empty-state" *ngIf="pendingUsers().length === 0">
+          <div class="es-icon">✅</div>
+          <h3>Asnjë regjistrim i ri</h3>
+          <p>Të gjitha regjistrimet janë procesuar.</p>
+        </div>
+
+        <div class="pending-grid" *ngIf="pendingUsers().length > 0">
+          <div class="pending-card" *ngFor="let user of pendingUsers()" [class.pending-card--selected]="isSelected(user.uid)">
+            <div class="pc-check" (click)="toggleSelect(user.uid)">
+              <div class="checkbox" [class.checkbox--on]="isSelected(user.uid)">
+                <svg *ngIf="isSelected(user.uid)" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </div>
+            </div>
+            <div class="pc-header">
+              <div class="pc-av">
+                <img *ngIf="user.avatarUrl" [src]="user.avatarUrl" [alt]="user.emriPlote"/>
+                <span *ngIf="!user.avatarUrl">{{ initials(user.emriPlote) }}</span>
+              </div>
+              <div class="pc-id">
+                <div class="pc-name">{{ user.emriPlote }}</div>
+                <div class="pc-email">{{ user.email }}</div>
+                <div class="pc-date">{{ formatDate(user.krijuarMe) }}</div>
+              </div>
+              <div class="pc-role" [class.pc-role--artist]="user.roli === 'artist'">
+                {{ user.roli === 'artist' ? '🎨 Artist' : '👁 Shikues' }}
+              </div>
+            </div>
+            <div class="pc-bio" *ngIf="user.bio"><span class="pc-bio-label">Bio:</span> {{ user.bio }}</div>
+            <div class="pc-note" *ngIf="user.adminNote">
+              <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              {{ user.adminNote }}
+            </div>
+            <div class="pc-actions">
+              <button class="btn-approve" (click)="approveUser(user)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+                Aprovo &amp; Dërgo Email
+              </button>
+              <button class="btn-note" (click)="openDrawer(user)" title="Shënim">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </button>
+              <button class="btn-reject" (click)="rejectUser(user)">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                Refuzo
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════ TAB: USERS ════ -->
+      <section class="tab-section" *ngIf="isTab('users')">
+        <div class="sec-head">
+          <div>
+            <h2 class="sec-title">Të gjithë Përdoruesit</h2>
+            <p class="sec-desc">Menaxhoni rolet, bllokimin, shënimet dhe aprovimin.</p>
+          </div>
+          <div class="head-actions">
+            <button class="btn-sm btn-outline" (click)="exportUsersCSV()">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+              </svg>
+              Eksporto CSV
+            </button>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <div class="search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" [(ngModel)]="userSearch" placeholder="Kërko me emër ose email..."/>
+          </div>
+          <div class="role-chips">
+            <button class="rc" [class.rc--on]="roleFilter==='all'"     (click)="roleFilter='all'">Të gjithë</button>
+            <button class="rc" [class.rc--on]="roleFilter==='artist'"  (click)="roleFilter='artist'">Artistë</button>
+            <button class="rc" [class.rc--on]="roleFilter==='shikues'" (click)="roleFilter='shikues'">Shikues</button>
+            <button class="rc" [class.rc--on]="roleFilter==='admin'"   (click)="roleFilter='admin'">Admin</button>
+          </div>
+        </div>
+
+        <div class="data-table">
+          <div class="dt-header">
+            <div class="dth dth--user">Përdoruesi</div>
+            <div class="dth">Email</div>
+            <div class="dth">Roli</div>
+            <div class="dth">Statusi</div>
+            <div class="dth">Regjistruar</div>
+            <div class="dth dth--actions">Veprime</div>
+          </div>
+
+          <div class="dt-row" *ngFor="let user of filteredUsers()" [class.dt-row--banned]="user.banned">
+            <div class="dtd dtd--user">
+              <div class="user-av">
+                <img *ngIf="user.avatarUrl" [src]="user.avatarUrl" [alt]="user.emriPlote"/>
+                <span *ngIf="!user.avatarUrl">{{ initials(user.emriPlote) }}</span>
+              </div>
+              <div>
+                <div class="user-name">{{ user.emriPlote }}</div>
+                <div class="user-uid">{{ user.uid.slice(0,12) }}…</div>
+                <div class="note-preview" *ngIf="user.adminNote">📝 {{ user.adminNote | slice:0:35 }}…</div>
+              </div>
+            </div>
+            <div class="dtd"><span class="cell-email">{{ user.email }}</span></div>
+            <div class="dtd">
+              <select class="role-select" [value]="user.roli" (change)="changeRole(user, $any($event.target).value)">
+                <option value="shikues">👁 Shikues</option>
+                <option value="artist">🎨 Artist</option>
+                <option value="admin">🔑 Admin</option>
+              </select>
+            </div>
+            <div class="dtd">
+              <div class="badge-col">
+                <span class="badge badge--ok"   *ngIf="user.approved && !user.banned">✓ Aprovuar</span>
+                <span class="badge badge--warn"  *ngIf="!user.approved && !user.banned">⏳ Pritje</span>
+                <span class="badge badge--err"   *ngIf="user.banned">⛔ Bllokuar</span>
+              </div>
+            </div>
+            <div class="dtd"><span class="cell-date">{{ formatDate(user.krijuarMe) }}</span></div>
+            <div class="dtd dtd--actions">
+              <button class="act-btn act-btn--approve" *ngIf="!user.approved && !user.banned" (click)="approveUser(user)" title="Aprovo">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+              </button>
+              <button class="act-btn act-btn--mail" *ngIf="user.approved" (click)="resendApprovalEmail(user)" [class.act-btn--loading]="resendingUid === user.uid" title="Ridërgo email">
+                <span class="mini-spin" *ngIf="resendingUid === user.uid"></span>
+                <svg *ngIf="resendingUid !== user.uid" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                  <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
+                </svg>
+              </button>
+              <button class="act-btn act-btn--note" (click)="openDrawer(user)" title="Shënim admin">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+              </button>
+              <button class="act-btn" [class.act-btn--ban]="!user.banned" [class.act-btn--unban]="user.banned" (click)="toggleBan(user)" [title]="user.banned ? 'Zhblloko' : 'Blloko'">
+                <svg *ngIf="!user.banned" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><line x1="4.93" y1="4.93" x2="19.07" y2="19.07"/></svg>
+                <svg *ngIf="user.banned" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+              </button>
+              <button class="act-btn act-btn--del" (click)="rejectUser(user)" title="Fshi llogarinë">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="dt-empty" *ngIf="filteredUsers().length === 0">Nuk u gjet asnjë rezultat.</div>
+        </div>
+      </section>
+
+      <!-- ════ TAB: ARTISTS ════ -->
+      <section class="tab-section" *ngIf="isTab('artists')">
+        <div class="sec-head">
+          <div>
+            <h2 class="sec-title">Profile Artistësh</h2>
+            <p class="sec-desc">Të gjitha profilet e ngarkuara nga përdoruesit e aprovuar.</p>
+          </div>
+        </div>
+        <div class="filter-row">
+          <div class="search-wrap">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            <input type="text" [(ngModel)]="artistSearch" placeholder="Kërko artistin, qytetin, autorin..."/>
+          </div>
+        </div>
+        <div class="artist-admin-grid">
+          <div class="aag-card" *ngFor="let artist of filteredArtists()">
+            <div class="aag-photo">
+              <img *ngIf="artist.fotoUrl" [src]="artist.fotoUrl" [alt]="artist.emri"/>
+              <span class="aag-init" *ngIf="!artist.fotoUrl">{{ initials(artist.emri + ' ' + artist.mbiemri) }}</span>
+            </div>
+            <div class="aag-info">
+              <div class="aag-name">{{ artist.emri }} {{ artist.mbiemri }}</div>
+              <div class="aag-meta">{{ artist.lloji }} · {{ artist.qytetiEmri }}</div>
+              <div class="aag-uploader">
+                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                {{ artist.shtuesEmri || '—' }}
+              </div>
+              <div class="aag-works" *ngIf="(artist.vepraNr ?? 0) > 0">{{ artist.vepraNr }} vepra</div>
+            </div>
+            <div class="aag-actions">
+              <div class="aag-date">{{ formatDate(artist.krijuarMe) }}</div>
+              <button class="act-btn act-btn--del" (click)="deleteArtist(artist)">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="empty-state" *ngIf="filteredArtists().length === 0">
+            <div class="es-icon">🎨</div><h3>Asnjë artist</h3><p>Nuk ka profile artistësh akoma.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ════ TAB: STATS ════ -->
+      <section class="tab-section" *ngIf="isTab('stats')">
+        <div class="sec-head">
+          <div>
+            <h2 class="sec-title">Statistika të Platformës</h2>
+            <p class="sec-desc">Pasqyrë e gjendjes aktuale të Arkivës Digjitale.</p>
+          </div>
+        </div>
+        <div class="stats-grid">
+          <div class="sg-card sg-card--wide">
+            <div class="sgc-title">Shpërndarja e Përdoruesve sipas Rolit</div>
+            <div class="role-bars">
+              <div class="rb-row">
+                <div class="rb-label">🎨 Artistë</div>
+                <div class="rb-track"><div class="rb-fill rb-fill--gold" [style.width.%]="stats().total ? (stats().byRole.artist / stats().total * 100) : 0"></div></div>
+                <div class="rb-count">{{ stats().byRole.artist }}</div>
+              </div>
+              <div class="rb-row">
+                <div class="rb-label">👁 Shikues</div>
+                <div class="rb-track"><div class="rb-fill rb-fill--blue" [style.width.%]="stats().total ? (stats().byRole.shikues / stats().total * 100) : 0"></div></div>
+                <div class="rb-count">{{ stats().byRole.shikues }}</div>
+              </div>
+              <div class="rb-row">
+                <div class="rb-label">🔑 Admin</div>
+                <div class="rb-track"><div class="rb-fill rb-fill--purple" [style.width.%]="stats().total ? (stats().byRole.admin / stats().total * 100) : 0"></div></div>
+                <div class="rb-count">{{ stats().byRole.admin }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sg-card">
+            <div class="sgc-title">Statusi i Llogarive</div>
+            <div class="status-rings">
+              <div class="sr-item">
+                <div class="sr-num sr-num--green">{{ stats().approved }}</div>
+                <div class="sr-label">Aprovuar</div>
+              </div>
+              <div class="sr-item">
+                <div class="sr-num sr-num--gold">{{ stats().pending }}</div>
+                <div class="sr-label">Në pritje</div>
+              </div>
+              <div class="sr-item">
+                <div class="sr-num sr-num--red">{{ stats().banned }}</div>
+                <div class="sr-label">Bllokuar</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="sg-card">
+            <div class="sgc-title">Norma e Aprovimit</div>
+            <div class="rate-wrap">
+              <svg viewBox="0 0 120 120" width="110" height="110">
+                <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(201,168,76,.1)" stroke-width="10"/>
+                <circle cx="60" cy="60" r="50" fill="none" stroke="#e8c97a" stroke-width="10"
+                        stroke-dasharray="314"
+                        [attr.stroke-dashoffset]="314 - (stats().total ? (stats().approved / stats().total * 314) : 0)"
+                        stroke-linecap="round" transform="rotate(-90 60 60)"/>
+                <text x="60" y="60" text-anchor="middle" dy=".35em" fill="#e8c97a" font-size="20" font-family="Georgia,serif">
+                  {{ stats().total ? (stats().approved / stats().total * 100 | number:'1.0-0') : 0 }}%
+                </text>
+              </svg>
+              <div class="rate-sub">llogarive aprovuar</div>
+            </div>
+          </div>
+
+          <div class="sg-card sg-card--wide">
+            <div class="sgc-title">Veprime të Shpejta</div>
+            <div class="quick-actions">
+              <button class="qa-btn" (click)="loadAll()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+                Rifresko
+              </button>
+              <button class="qa-btn" (click)="exportUsersCSV()">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Eksporto CSV
+              </button>
+              <button class="qa-btn" (click)="setTab('pending')" *ngIf="stats().pending > 0">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+                Shiko pritjet ({{ stats().pending }})
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </ng-container>
+  </main>
+</div>
+
+<!-- ════ DRAWER: Admin note / user detail ════ -->
+<div class="drawer-overlay" *ngIf="drawerUser()" (click)="closeDrawer()"></div>
+<div class="drawer" [class.drawer--open]="!!drawerUser()">
+  <ng-container *ngIf="drawerUser() as user">
+    <div class="dr-header">
+      <div class="dr-av">
+        <img *ngIf="user.avatarUrl" [src]="user.avatarUrl"/>
+        <span *ngIf="!user.avatarUrl">{{ initials(user.emriPlote) }}</span>
+      </div>
+      <div class="dr-info">
+        <div class="dr-name">{{ user.emriPlote }}</div>
+        <div class="dr-email">{{ user.email }}</div>
+        <div class="dr-badge" [class.drb--artist]="user.roli==='artist'">{{ user.roli }}</div>
+      </div>
+      <button class="dr-close" (click)="closeDrawer()">×</button>
+    </div>
+    <div class="dr-body">
+      <div class="dr-section">
+        <div class="dr-section-label">Statusi</div>
+        <span class="badge badge--ok"   *ngIf="user.approved && !user.banned">✓ Aprovuar</span>
+        <span class="badge badge--warn"  *ngIf="!user.approved && !user.banned">⏳ Në pritje</span>
+        <span class="badge badge--err"   *ngIf="user.banned">⛔ Bllokuar</span>
+      </div>
+      <div class="dr-section">
+        <div class="dr-section-label">Informacion</div>
+        <div class="dr-info-grid">
+          <div class="dig-row"><span class="dig-k">UID</span><span class="dig-v mono">{{ user.uid }}</span></div>
+          <div class="dig-row"><span class="dig-k">Regjistruar</span><span class="dig-v">{{ formatDate(user.krijuarMe) }}</span></div>
+          <div class="dig-row" *ngIf="user.approvedAt"><span class="dig-k">Aprovuar</span><span class="dig-v">{{ formatDate(user.approvedAt) }}</span></div>
+        </div>
+      </div>
+      <div class="dr-section" *ngIf="user.bio">
+        <div class="dr-section-label">Bio</div>
+        <p class="dr-bio">{{ user.bio }}</p>
+      </div>
+      <div class="dr-section">
+        <div class="dr-section-label">Shënim Privat i Administratorit</div>
+        <textarea class="dr-textarea" [(ngModel)]="drawerNote" placeholder="Shënime private..." rows="4"></textarea>
+        <button class="btn-save-note" (click)="saveNote()">Ruaj Shënimin</button>
+      </div>
+      <div class="dr-section">
+        <div class="dr-section-label">Veprime të Shpejta</div>
+        <div class="dr-actions">
+          <button class="dr-action-btn dr-action-btn--green" *ngIf="!user.approved" (click)="approveUser(user); closeDrawer()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg>
+            Aprovo
+          </button>
+          <button class="dr-action-btn dr-action-btn--blue" *ngIf="user.approved" (click)="resendApprovalEmail(user)">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            Ridërgo Email
+          </button>
+          <button class="dr-action-btn" [class.dr-action-btn--red]="!user.banned" [class.dr-action-btn--green]="user.banned" (click)="toggleBan(user)">
+            {{ user.banned ? 'Zhblloko' : 'Blloko' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>
+
+<!-- ════ CONFIRM MODAL ════ -->
+<div class="modal-overlay" *ngIf="confirmModal.open" (click)="closeConfirm()">
+  <div class="modal" (click)="$event.stopPropagation()">
+    <div class="modal-header">
+      <span class="modal-title">{{ confirmModal.title }}</span>
+      <button class="modal-close" (click)="closeConfirm()">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="confirm-icon">⚠️</div>
+      <p class="confirm-msg">{{ confirmModal.message }}</p>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" (click)="closeConfirm()">Anulo</button>
+      <button class="btn-danger" (click)="runConfirm()">Konfirmo</button>
+    </div>
+  </div>
+</div>

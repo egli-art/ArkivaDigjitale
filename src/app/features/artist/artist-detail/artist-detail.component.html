@@ -1,208 +1,208 @@
 <div class="artist-page" *ngIf="artist() as a; else notFound">
 
-  <!-- ── Hero ── -->
-  <div class="artist-hero">
-    <div class="hero-cover" *ngIf="a.fotoUrl">
-      <img [src]="a.fotoUrl" [alt]="a.emri"/>
-    </div>
-    <div class="hero-content">
-      <button class="btn-ghost hero-back" (click)="goBackToCity()">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M19 12H5M12 5l-7 7 7 7"/>
-        </svg>
-        Kthehu te {{ cityName }}
-      </button>
-      <div class="hero-type">{{ a.lloji }}</div>
-      <div class="hero-name">{{ a.emri }} {{ a.mbiemri }}</div>
-      <div class="hero-city">
-        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
-          <circle cx="12" cy="9" r="2.5"/>
-        </svg>
-        {{ cityName }}, Shqipëri
-      </div>
-    </div>
-    <div class="hero-actions" *ngIf="auth.isArtist">
-      <button class="btn-outline" (click)="openEditModal()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
-          <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
-        </svg>
-        Ndrysho Profilin
-      </button>
-    </div>
-  </div>
-
-  <!-- ── Body ── -->
-  <div class="artist-body">
-
-    <!-- Left: bio + works -->
-    <div class="artist-main">
-
-      <!-- Bio -->
-      <div class="section-label">Bio</div>
-      <div class="bio-text">{{ a.bio || 'Nuk ka bio të shtuar ende.' }}</div>
-
-      <!-- Works -->
-      <div style="margin-top: 2.5rem">
-        <div class="section-label">
-          <span>Veprat</span>
-          <button class="btn-add" *ngIf="auth.isArtist" (click)="openWorkModal()">
-            + Shto Vepër
-          </button>
+    <!-- ── Hero ── -->
+    <div class="artist-hero">
+        <div class="hero-cover" *ngIf="a.fotoUrl">
+            <img [src]="a.fotoUrl" [alt]="a.emri"/>
         </div>
-
-        <div class="works-loading" *ngIf="loading()">
-          <div class="spinner-light"></div>
-        </div>
-
-        <div class="works-grid" *ngIf="!loading()">
-          <div class="work-card fade-in"
-               *ngFor="let w of works()"
-               (click)="openLightbox(w.imazhet?.[0] ?? '', w.titulli)">
-            <div class="work-thumb">
-              <img *ngIf="w.imazhet?.[0]" [src]="w.imazhet![0]" [alt]="w.titulli" loading="lazy"/>
-              <div class="work-placeholder" *ngIf="!w.imazhet?.[0]">🖼</div>
+        <div class="hero-content">
+            <button class="btn-ghost hero-back" (click)="goBackToCity()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M19 12H5M12 5l-7 7 7 7"/>
+                </svg>
+                Kthehu te {{ cityName }}
+            </button>
+            <div class="hero-type">{{ a.lloji }}</div>
+            <div class="hero-name">{{ a.emri }} {{ a.mbiemri }}</div>
+            <div class="hero-city">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/>
+                    <circle cx="12" cy="9" r="2.5"/>
+                </svg>
+                {{ cityName }}, Shqipëri
             </div>
-            <div class="work-info">
-              <div class="work-title">{{ w.titulli }}</div>
-              <div class="work-meta">{{ w.viti }}{{ w.viti && w.medium ? ' · ' : '' }}{{ w.medium }}</div>
+        </div>
+        <div class="hero-actions" *ngIf="auth.isArtist">
+            <button class="btn-outline" (click)="openEditModal()">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
+                Ndrysho Profilin
+            </button>
+        </div>
+    </div>
+
+    <!-- ── Body ── -->
+    <div class="artist-body">
+
+        <!-- Left: bio + works -->
+        <div class="artist-main">
+
+            <!-- Bio -->
+            <div class="section-label">Bio</div>
+            <div class="bio-text">{{ a.bio || 'Nuk ka bio të shtuar ende.' }}</div>
+
+            <!-- Works -->
+            <div style="margin-top: 2.5rem">
+                <div class="section-label">
+                    <span>Veprat</span>
+                    <button class="btn-add" *ngIf="auth.isArtist" (click)="openWorkModal()">
+                        + Shto Vepër
+                    </button>
+                </div>
+
+                <div class="works-loading" *ngIf="loading()">
+                    <div class="spinner-light"></div>
+                </div>
+
+                <div class="works-grid" *ngIf="!loading()">
+                    <div class="work-card fade-in"
+                         *ngFor="let w of works()"
+                         (click)="openLightbox(w.imazhet?.[0] ?? '', w.titulli)">
+                        <div class="work-thumb">
+                            <img *ngIf="w.imazhet?.[0]" [src]="w.imazhet![0]" [alt]="w.titulli" loading="lazy"/>
+                            <div class="work-placeholder" *ngIf="!w.imazhet?.[0]">🖼</div>
+                        </div>
+                        <div class="work-info">
+                            <div class="work-title">{{ w.titulli }}</div>
+                            <div class="work-meta">{{ w.viti }}{{ w.viti && w.medium ? ' · ' : '' }}{{ w.medium }}</div>
+                        </div>
+                    </div>
+
+                    <div class="empty-works" *ngIf="works().length === 0">
+                        <p>Asnjë vepër nuk është shtuar ende.</p>
+                    </div>
+                </div>
             </div>
-          </div>
-
-          <div class="empty-works" *ngIf="works().length === 0">
-            <p>Asnjë vepër nuk është shtuar ende.</p>
-          </div>
         </div>
-      </div>
+
+        <!-- Right: sidebar -->
+        <div class="artist-sidebar">
+            <div class="info-card">
+                <div class="photo-frame">
+                    @if (artist()!.fotoUrl) { <img [src]="artist()!.fotoUrl" [alt]="artist()!.emri + ' ' + artist()!.mbiemri"/> }
+                    @else { <div class="ph-init">{{ artist()!.emri[0] }}</div> }
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Qyteti</span>
+                    <span class="info-val">{{ cityName }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Lloji</span>
+                    <span class="info-val">{{ a.lloji || '—' }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Lindur</span>
+                    <span class="info-val">{{ a.lindja || '—' }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Vepra</span>
+                    <span class="info-val">{{ a.vepraNr ?? 0 }}</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-key">Shtuar nga</span>
+                    <span class="info-val">{{ a.shtuesEmri || '—' }}</span>
+                </div>
+            </div>
+        </div>
+
     </div>
-
-    <!-- Right: sidebar -->
-    <div class="artist-sidebar">
-      <div class="info-card">
-          <div class="photo-frame">
-              @if (artist()!.fotoUrl) { <img [src]="artist()!.fotoUrl" [alt]="artist()!.emri + ' ' + artist()!.mbiemri"/> }
-              @else { <div class="ph-init">{{ artist()!.emri[0] }}</div> }
-          </div>
-        <div class="info-row">
-          <span class="info-key">Qyteti</span>
-          <span class="info-val">{{ cityName }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Lloji</span>
-          <span class="info-val">{{ a.lloji || '—' }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Lindur</span>
-          <span class="info-val">{{ a.lindja || '—' }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Vepra</span>
-          <span class="info-val">{{ a.vepraNr ?? 0 }}</span>
-        </div>
-        <div class="info-row">
-          <span class="info-key">Shtuar nga</span>
-          <span class="info-val">{{ a.shtuesEmri || '—' }}</span>
-        </div>
-      </div>
-    </div>
-
-  </div>
 </div>
 
 <ng-template #notFound>
-  <div style="padding:4rem 2.5rem;color:var(--muted)">Artisti nuk u gjet.</div>
+    <div style="padding:4rem 2.5rem;color:var(--muted)">Artisti nuk u gjet.</div>
 </ng-template>
 
 <!-- ── Edit Artist Modal ── -->
 <div class="modal-overlay" *ngIf="showEditModal" (click)="showEditModal = false">
-  <div class="modal modal-lg" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <span class="modal-title">Ndrysho Profilin</span>
-      <button class="modal-close" (click)="showEditModal = false">×</button>
+    <div class="modal modal-lg" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span class="modal-title">Ndrysho Profilin</span>
+            <button class="modal-close" (click)="showEditModal = false">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-row-2">
+                <div class="form-group"><label>Emri</label>
+                    <input type="text" [(ngModel)]="editForm.emri"/>
+                </div>
+                <div class="form-group"><label>Mbiemri</label>
+                    <input type="text" [(ngModel)]="editForm.mbiemri"/>
+                </div>
+            </div>
+            <div class="form-row-2">
+                <div class="form-group"><label>Lloji</label>
+                    <select [(ngModel)]="editForm.lloji">
+                        <option *ngFor="let t of artistTypes" [value]="t">{{ t }}</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Viti i Lindjes</label>
+                    <input type="text" [(ngModel)]="editForm.lindja"/>
+                </div>
+            </div>
+            <div class="form-group"><label>Bio</label>
+                <textarea [(ngModel)]="editForm.bio"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="showEditModal = false">Anulo</button>
+            <button class="btn-save" (click)="saveEdit()" [disabled]="editSaving">
+                <span class="spinner" *ngIf="editSaving"></span>
+                {{ editSaving ? 'Duke ruajtur...' : 'Ruaj Ndryshimet' }}
+            </button>
+        </div>
     </div>
-    <div class="modal-body">
-      <div class="form-row-2">
-        <div class="form-group"><label>Emri</label>
-          <input type="text" [(ngModel)]="editForm.emri"/>
-        </div>
-        <div class="form-group"><label>Mbiemri</label>
-          <input type="text" [(ngModel)]="editForm.mbiemri"/>
-        </div>
-      </div>
-      <div class="form-row-2">
-        <div class="form-group"><label>Lloji</label>
-          <select [(ngModel)]="editForm.lloji">
-            <option *ngFor="let t of artistTypes" [value]="t">{{ t }}</option>
-          </select>
-        </div>
-        <div class="form-group"><label>Viti i Lindjes</label>
-          <input type="text" [(ngModel)]="editForm.lindja"/>
-        </div>
-      </div>
-      <div class="form-group"><label>Bio</label>
-        <textarea [(ngModel)]="editForm.bio"></textarea>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" (click)="showEditModal = false">Anulo</button>
-      <button class="btn-save" (click)="saveEdit()" [disabled]="editSaving">
-        <span class="spinner" *ngIf="editSaving"></span>
-        {{ editSaving ? 'Duke ruajtur...' : 'Ruaj Ndryshimet' }}
-      </button>
-    </div>
-  </div>
 </div>
 
 <!-- ── Add Work Modal ── -->
 <div class="modal-overlay" *ngIf="showWorkModal" (click)="showWorkModal = false">
-  <div class="modal modal-lg" (click)="$event.stopPropagation()">
-    <div class="modal-header">
-      <span class="modal-title">Shto Vepër të Re</span>
-      <button class="modal-close" (click)="showWorkModal = false">×</button>
+    <div class="modal modal-lg" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span class="modal-title">Shto Vepër të Re</span>
+            <button class="modal-close" (click)="showWorkModal = false">×</button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group"><label>Titulli i Veprës *</label>
+                <input type="text" [(ngModel)]="workForm.titulli" placeholder="Titulli"/>
+            </div>
+            <div class="form-row-2">
+                <div class="form-group"><label>Viti</label>
+                    <input type="text" [(ngModel)]="workForm.viti" placeholder="p.sh. 1998"/>
+                </div>
+                <div class="form-group"><label>Teknika / Medium</label>
+                    <input type="text" [(ngModel)]="workForm.medium" placeholder="p.sh. Vaj në kanavacë"/>
+                </div>
+            </div>
+            <div class="form-group"><label>Përshkrim</label>
+                <textarea [(ngModel)]="workForm.pershkrim" placeholder="Përshkruaj veprën..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Imazhet</label>
+                <div class="upload-area">
+                    <input type="file" accept="image/*" multiple (change)="onWorkImages($event)"/>
+                    <div class="upload-icon">🖼</div>
+                    <div class="upload-text">Kliko ose zvarrit imazhet (mund të zgjedhësh disa)</div>
+                </div>
+                <div class="upload-preview" *ngIf="workPreviews.length">
+                    <div class="preview-item" *ngFor="let p of workPreviews; let i = index">
+                        <img [src]="p" alt="Preview"/>
+                        <div class="remove-btn" (click)="removeWorkImg(i)">×</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="showWorkModal = false">Anulo</button>
+            <button class="btn-save" (click)="saveWork()" [disabled]="workSaving">
+                <span class="spinner" *ngIf="workSaving"></span>
+                {{ workSaving ? 'Duke ngarkuar...' : 'Ruaj Veprën' }}
+            </button>
+        </div>
     </div>
-    <div class="modal-body">
-      <div class="form-group"><label>Titulli i Veprës *</label>
-        <input type="text" [(ngModel)]="workForm.titulli" placeholder="Titulli"/>
-      </div>
-      <div class="form-row-2">
-        <div class="form-group"><label>Viti</label>
-          <input type="text" [(ngModel)]="workForm.viti" placeholder="p.sh. 1998"/>
-        </div>
-        <div class="form-group"><label>Teknika / Medium</label>
-          <input type="text" [(ngModel)]="workForm.medium" placeholder="p.sh. Vaj në kanavacë"/>
-        </div>
-      </div>
-      <div class="form-group"><label>Përshkrim</label>
-        <textarea [(ngModel)]="workForm.pershkrim" placeholder="Përshkruaj veprën..."></textarea>
-      </div>
-      <div class="form-group">
-        <label>Imazhet</label>
-        <div class="upload-area">
-          <input type="file" accept="image/*" multiple (change)="onWorkImages($event)"/>
-          <div class="upload-icon">🖼</div>
-          <div class="upload-text">Kliko ose zvarrit imazhet (mund të zgjedhësh disa)</div>
-        </div>
-        <div class="upload-preview" *ngIf="workPreviews.length">
-          <div class="preview-item" *ngFor="let p of workPreviews; let i = index">
-            <img [src]="p" alt="Preview"/>
-            <div class="remove-btn" (click)="removeWorkImg(i)">×</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-footer">
-      <button class="btn-cancel" (click)="showWorkModal = false">Anulo</button>
-      <button class="btn-save" (click)="saveWork()" [disabled]="workSaving">
-        <span class="spinner" *ngIf="workSaving"></span>
-        {{ workSaving ? 'Duke ngarkuar...' : 'Ruaj Veprën' }}
-      </button>
-    </div>
-  </div>
 </div>
 
 <!-- ── Lightbox ── -->
 <div class="lightbox" *ngIf="showLightbox" (click)="showLightbox = false">
-  <button class="lb-close" (click)="showLightbox = false">×</button>
-  <img class="lb-img" [src]="lightboxSrc" [alt]="lightboxAlt" (click)="$event.stopPropagation()"/>
+    <button class="lb-close" (click)="showLightbox = false">×</button>
+    <img class="lb-img" [src]="lightboxSrc" [alt]="lightboxAlt" (click)="$event.stopPropagation()"/>
 </div>

@@ -99,3 +99,108 @@
   .auth-page { grid-template-columns: 1fr; }
   .auth-panel { display: none; }
 }
+
+/* ── Social buttons ─────────────────────────────────────────── */
+.social-btns {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  margin-bottom: 1.25rem;
+}
+
+.btn-social {
+  width: 100%;
+  display: flex; align-items: center; justify-content: center; gap: 0.65rem;
+  padding: 0.72rem 1rem;
+  border-radius: 10px;
+  font-size: 0.88rem; font-weight: 500;
+  font-family: var(--ff-sans, 'DM Sans', sans-serif);
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background 0.2s, opacity 0.2s, border-color 0.2s;
+
+  svg { flex-shrink: 0; }
+
+  &:disabled { opacity: 0.55; cursor: not-allowed; }
+}
+
+.btn-google {
+  background: #0e0e1c;
+  border-color: rgba(201,168,76,.2);
+  color: #f0ece2;
+  &:hover:not(:disabled) { border-color: rgba(201,168,76,.4); background: rgba(255,255,255,.04); }
+}
+
+.btn-apple {
+  background: #f5f5f7;
+  border-color: #f5f5f7;
+  color: #1d1d1f;
+  &:hover:not(:disabled) { background: #e5e5ea; }
+}
+
+/* ── Or divider ─────────────────────────────────────────────── */
+.or-divider {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.od-line {
+  flex: 1; height: 1px;
+  background: rgba(201,168,76,.14);
+}
+
+.od-text {
+  font-size: 0.72rem; color: var(--muted, #6e6e8a);
+  text-transform: uppercase; letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+
+/* ── Field header ───────────────────────────────────────────── */
+.field-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+/* ── Spinner ────────────────────────────────────────────────── */
+.spinner {
+  width: 15px; height: 15px;
+  border: 2px solid rgba(255,255,255,.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.spinner--dark {
+  border-color: rgba(0,0,0,.2);
+  border-top-color: #000;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+// Email verification notice
+.verify-notice {
+  text-align: center;
+  padding: 1.5rem 0;
+
+  .verify-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-family: var(--ff-serif);
+    font-size: 1.4rem;
+    color: var(--cream);
+    font-weight: 400;
+    margin-bottom: .75rem;
+  }
+
+  p {
+    font-size: .88rem;
+    color: var(--muted-lt);
+    line-height: 1.7;
+
+    strong { color: var(--gold-lt); }
+  }
+}

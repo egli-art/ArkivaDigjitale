@@ -67,7 +67,8 @@ export class ArtistsService {
       imageFiles.map((f, i) => this.upload(`veprat/${artistId}/${Date.now()}_${i}_${f.name}`, f)),
     );
     await addDoc(collection(this.fb.db, 'artistet', artistId, 'veprat'),
-      { ...data, imazhet, krijuarMe: serverTimestamp() });
+      { ...data, imazhet, krijuarMe: serverTimestamp(),
+        shtuesId: this.fb.auth.currentUser?.uid ?? '' });
     const artist = await this.getArtist(artistId);
     await updateDoc(doc(this.fb.db, 'artistet', artistId), { vepraNr: (artist?.vepraNr ?? 0) + 1 });
   }

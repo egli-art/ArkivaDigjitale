@@ -1,6 +1,7 @@
 {
   "projects": {
-    "y": "arkiva-digjitale"
+    "y": "arkiva-digjitale",
+    "default": "arkiva-digjitale"
   },
   "targets": {},
   "etags": {}

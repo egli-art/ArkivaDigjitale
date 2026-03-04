@@ -107,7 +107,10 @@ export class ArtistDetailComponent implements OnInit {
       this.toast.success('Vepra u shtua me sukses!');
       this.showWorkModal = false;
       this.works.set(await this.artistSvc.getWorks(this.artist()!.id!));
-    } catch { this.toast.error('Gabim gjatë ruajtjes.'); }
+    } catch (e: any) {
+      console.error('saveWork error:', e?.code, e?.message, e);
+      this.toast.error('Gabim: ' + (e?.code ?? e?.message ?? 'E panjohur'));
+    }
     this.workSaving = false;
   }
 

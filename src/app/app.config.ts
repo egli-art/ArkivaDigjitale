@@ -4,6 +4,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getFunctions, provideFunctions } from '@angular/fire/functions';
 import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { environment } from '../environments/environment';
 import { routes } from './app.routes';
@@ -21,6 +22,7 @@ export const appConfig: ApplicationConfig = {
         provideAuth(() => getAuth()),
         provideFirestore(() => getFirestore()),
         provideStorage(() => getStorage()),
+        provideFunctions(() => getFunctions(undefined, 'europe-west1')),
         provideAnalytics(() => getAnalytics()),
         provideFirebaseApp(() => initializeApp(environment.firebase)),
         provideDatabase(() => getDatabase()),
