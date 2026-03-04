@@ -2,6 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { Firestore, collection, doc, addDoc, getDoc, getDocs, updateDoc, deleteDoc,
   query, where, orderBy, serverTimestamp, collectionData, docData } from '@angular/fire/firestore';
 import { Storage, ref, uploadBytes, getDownloadURL } from '@angular/fire/storage';
+import { Auth } from '@angular/fire/auth';
 import { Observable, from } from 'rxjs';
 import { Artist, Work } from '../models/artist.model';
 
@@ -9,6 +10,7 @@ import { Artist, Work } from '../models/artist.model';
 export class ArtistService {
   private fs      = inject(Firestore);
   private storage = inject(Storage);
+  private auth    = inject(Auth);
 
   // ── Artists ──────────────────────────────────────────────────
   async getArtistsByCity(cityId: string): Promise<Artist[]> {
@@ -62,7 +64,7 @@ export class ArtistService {
       imazhet.push(await getDownloadURL(storRef));
     }
     await addDoc(collection(this.fs, 'artistet', artistId, 'veprat'), {
-      ...work, imazhet, krijuarMe: serverTimestamp()
+      ...work, imazhet, krijuarMe: serverTimestamp(), shtuesId: this.auth.currentUser?.uid ?? ''
     });
     const current = (await getDoc(doc(this.fs, 'artistet', artistId))).data();
     await updateDoc(doc(this.fs, 'artistet', artistId), {

@@ -29,6 +29,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private map: any = null;
   private viewInited = false;
   private dataReady  = false;
+    currentYear = new Date().getFullYear();
 
   filteredCities(): City[] {
     const q = this.search.toLowerCase().trim();

@@ -40,8 +40,9 @@ export interface UserProfile {
   mbiemri: string;
   emriPlote: string;
   email: string;
-  roli: 'artist' | 'shikues';
+  roli: 'artist' | 'shikues' | 'admin';
   krijuarMe?: any;
+  approved?:boolean;
 }
 
 export const ARTIST_TYPES = [

@@ -1,76 +1,697 @@
-<div class="profile-page">
+<!-- ═══════════════════════════════════════════════════════════
+     PROFILE — Arkiva Digjitale
+     ═══════════════════════════════════════════════════════════ -->
 
-    <!-- HERO -->
-    <div class="hero-banner">
+<!-- LOADING -->
+<div class="pg-load" *ngIf="loading()">
+    <div class="sp-lg"></div>
+</div>
+
+<!-- NOT LOGGED IN -->
+<div class="profile-page" *ngIf="!loading() && !profile()">
+    <div class="not-auth-wrap">
+        <div class="na-icon">🔐</div>
+        <h3>Nuk jeni kyçur</h3>
+        <p>Hyni në llogari për të parë profilin tuaj.</p>
+        <div class="na-btns">
+            <a class="btn-primary" routerLink="/auth">Hyr me Email</a>
+            <button class="btn-social btn-google" (click)="loginWithGoogle()" [disabled]="googleLoading">
+                <span class="sp-sm" *ngIf="googleLoading"></span>
+                <svg *ngIf="!googleLoading" width="18" height="18" viewBox="0 0 48 48">
+                    <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                    <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                    <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                    <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                </svg>
+                <span>{{ googleLoading ? 'Duke u kyçur...' : 'Hyr me Google' }}</span>
+            </button>
+            <button class="btn-social btn-apple" (click)="loginWithApple()" [disabled]="appleLoading">
+                <span class="sp-sm" *ngIf="appleLoading"></span>
+                <svg *ngIf="!appleLoading" width="18" height="18" viewBox="0 0 814 1000" fill="currentColor">
+                    <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-127.4C46.7 790.7 0 663 0 541.8c0-207.5 135.4-317.1 268.5-317.1 99.8 0 169.6 56 225.3 56 53.7 0 137.2-59.4 248.8-59.4 39.5 0 142.2 3.8 208.4 78.2zm-206.4-154.3c-24.9 34.8-65.4 60.3-105.4 60.3-5.1 0-10.3-.6-15.4-1.5 1.3-39.5 19.2-79 44.1-106.6 24.9-27.5 67.1-48.9 103.5-50.8 1.3 5.8 1.9 11.6 1.9 17.3 0 38.3-15.6 76.7-28.7 81.3z"/>
+                </svg>
+                <span>{{ appleLoading ? 'Duke u kyçur...' : 'Hyr me Apple' }}</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LOGGED IN
+     ═══════════════════════════════════════════════════════════ -->
+<div class="profile-page" *ngIf="!loading() && profile()">
+
+    <!-- ══════════════ HERO BANNER ══════════════════════════════ -->
+    <div class="hero-banner" [class.artist-hero]="isArtist">
         <div class="hero-bg"></div>
         <div class="hero-content">
 
+            <!-- Avatar -->
             <div class="av-wrap">
-                <div class="av">
-                    <span class="av-init">EY</span>
+                <div class="av" [class.has-img]="avatarUrl()">
+                    <img *ngIf="avatarUrl()" [src]="avatarUrl()" alt="Avatar"/>
+                    <span class="av-init" *ngIf="!avatarUrl()">{{ avatarInitials() }}</span>
+                    <!-- Progress ring -->
+                    <div class="av-progress" *ngIf="uploadProgress() !== null">
+                        <svg viewBox="0 0 100 100">
+                            <circle cx="50" cy="50" r="45" class="av-track"/>
+                            <circle cx="50" cy="50" r="45" class="av-fill"
+                                    [style.stroke-dashoffset]="283 - (283 * (uploadProgress()! / 100))"/>
+                        </svg>
+                        <span>{{ uploadProgress() }}%</span>
+                    </div>
                 </div>
+                <!-- Camera btn -->
+                <label class="av-change" [class.saving]="avatarSaving" title="Ndrysho foton">
+                    <input type="file" accept="image/*" (change)="onAvatarChange($event)" [disabled]="avatarSaving"/>
+                    <span class="sp-sm" *ngIf="avatarSaving && uploadProgress() === null"></span>
+                    <svg *ngIf="!avatarSaving" width="13" height="13" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                        <circle cx="12" cy="13" r="4"/>
+                    </svg>
+                </label>
             </div>
 
+            <!-- Identity -->
             <div class="hero-id">
-                <div class="role-badge">🎨 Artist & Autor</div>
-                <h1 class="hero-name">Egli Yzeiri</h1>
-                <p class="hero-email">emailxample.com</p>
-                <p class="hero-bio">Bio e përdoruesit këtu...</p>
+                <div class="role-badge" [class.artist]="isArtist">{{ roleBadge }}</div>
+                <h1 class="hero-name">{{ displayName }}</h1>
+                <p class="hero-email">{{ displayEmail }}</p>
+                <p class="hero-bio" *ngIf="editBio">{{ editBio }}</p>
+                <p class="hero-bio hero-bio--empty" *ngIf="!editBio">Bio e përdoruesit këtu...</p>
             </div>
 
-            <div class="stats-strip">
+            <!-- Stats strip — ARTIST only, real Firestore data -->
+            <div class="stats-strip" *ngIf="isArtist">
                 <div class="stat">
-                    <div class="stat-n">4</div>
+                    <div class="stat-n">
+                        <ng-container *ngIf="!dataLoading()">{{ artistCount() }}</ng-container>
+                        <span class="sp-sm" *ngIf="dataLoading()"></span>
+                    </div>
                     <div class="stat-l">Artistë të Shtuar</div>
                 </div>
                 <div class="stat-sep"></div>
                 <div class="stat">
-                    <div class="stat-n">12</div>
+                    <div class="stat-n">
+                        <ng-container *ngIf="!dataLoading()">{{ workCount() }}</ng-container>
+                        <span class="sp-sm" *ngIf="dataLoading()"></span>
+                    </div>
                     <div class="stat-l">Vepra të Ngarkuara</div>
                 </div>
                 <div class="stat-sep"></div>
                 <div class="stat">
-                    <div class="stat-n">3</div>
+                    <div class="stat-n">
+                        <ng-container *ngIf="!dataLoading()">{{ cityCount() }}</ng-container>
+                        <span class="sp-sm" *ngIf="dataLoading()"></span>
+                    </div>
                     <div class="stat-l">Qytete</div>
                 </div>
             </div>
 
-            <button class="edit-hero-btn">
+            <!-- Edit shortcut -->
+            <button class="edit-hero-btn"
+                    (click)="isArtist ? setTab('settings') : setViewerTab('settings')">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                </svg>
                 Ndrysho Profilin
             </button>
 
         </div>
     </div>
 
-    <!-- BODY -->
-    <div class="body">
+    <!-- ══════════════════════════════════════════════════════════
+         VIEWER LAYOUT
+         ══════════════════════════════════════════════════════════ -->
+    <ng-container *ngIf="!isArtist">
 
+        <!-- Tab nav -->
         <div class="tab-nav">
-            <button class="tn on">Pasqyrë</button>
-            <button class="tn">Artistët e Mi</button>
-            <button class="tn">Veprat</button>
-            <button class="tn">Cilësimet</button>
+            <button class="tn" [class.on]="isViewerTab('gallery')" (click)="setViewerTab('gallery')">
+                Galeria e Artit
+            </button>
+            <button class="tn" [class.on]="isViewerTab('settings')" (click)="setViewerTab('settings')">
+                Cilësimet
+            </button>
         </div>
 
-        <div class="section">
+        <!-- ── GALLERY TAB ──────────────────────────────────────── -->
+        <div class="section" *ngIf="isViewerTab('gallery')">
 
-            <div class="viewer-overview">
-                <div class="vo-card">
-                    <div class="vc-icon">🗺</div>
-                    <div class="vc-title">Eksploro Hartën</div>
-                    <p class="vc-desc">Shflet qytetet e Shqipërisë.</p>
-                    <a class="btn-primary" href="/map">Hap Hartën</a>
+            <!-- Gallery header -->
+            <div class="gallery-header">
+                <div>
+                    <h2 class="sec-title">Galeria e Artit</h2>
+                    <p class="gallery-sub">Veprat e artistëve nga e gjithë Shqipëria</p>
                 </div>
+                <a class="btn-ghost" routerLink="/map">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                        <polygon points="3 11 22 2 13 21 11 13 3 11"/>
+                    </svg>
+                    Eksploro Hartën
+                </a>
+            </div>
 
-                <div class="vo-card">
-                    <div class="vc-icon">🎨</div>
-                    <div class="vc-title">Galeria e Artit</div>
-                    <p class="vc-desc">Shiko veprat e artistëve.</p>
-                    <a class="btn-ghost" href="/map">Shflet Tani</a>
+            <!-- Artists quick strip -->
+            <div class="artists-strip" *ngIf="allArtists().length > 0 && !galleryLoading()">
+                <div class="as-label">Artistët</div>
+                <div class="as-scroll">
+                    <a class="as-item" *ngFor="let a of allArtists().slice(0,12); trackBy: trackById"
+                       [routerLink]="['/artist', a.id]" title="{{ a.emri }} {{ a.mbiemri }}">
+                        <div class="as-av">
+                            <img *ngIf="a.fotoUrl" [src]="a.fotoUrl" [alt]="a.emri"/>
+                            <span *ngIf="!a.fotoUrl">{{ getArtistInitials(a) }}</span>
+                        </div>
+                        <div class="as-name">{{ a.emri }}</div>
+                    </a>
                 </div>
+            </div>
+
+            <!-- Loading -->
+            <div class="gallery-loading" *ngIf="galleryLoading()">
+                <div class="sp-lg"></div>
+                <p>Duke ngarkuar galerinë...</p>
+            </div>
+
+            <!-- Gallery grid -->
+            <div class="gallery-grid" *ngIf="!galleryLoading() && gallery().length > 0">
+                <div class="gal-item" *ngFor="let item of gallery(); trackBy: trackBySrc"
+                     (click)="openLightbox(item)">
+                    <img [src]="item.src" [alt]="item.titulli" loading="lazy"/>
+                    <div class="gal-overlay">
+                        <div class="gal-title">{{ item.titulli }}</div>
+                        <div class="gal-artist">{{ item.artistName }}</div>
+                        <div class="gal-meta" *ngIf="item.medium || item.viti">
+                            <span *ngIf="item.medium">{{ item.medium }}</span>
+                            <span *ngIf="item.medium && item.viti"> · </span>
+                            <span *ngIf="item.viti">{{ item.viti }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Empty gallery -->
+            <div class="big-empty" *ngIf="!galleryLoading() && gallery().length === 0">
+                <div class="be-icon">🖼</div>
+                <h3>Galeria është bosh</h3>
+                <p>Nuk ka vepra të ngarkuara akoma. Shfletoni artistët nga harta.</p>
+                <a class="btn-primary" routerLink="/map" style="margin-top:1.25rem">Hap Hartën</a>
             </div>
 
         </div>
 
+        <!-- ── SETTINGS TAB (viewer) ────────────────────────────── -->
+        <div class="section" *ngIf="isViewerTab('settings')">
+            <ng-container *ngTemplateOutlet="settingsTpl"></ng-container>
+        </div>
+
+    </ng-container>
+
+    <!-- ══════════════════════════════════════════════════════════
+         ARTIST LAYOUT
+         ══════════════════════════════════════════════════════════ -->
+    <ng-container *ngIf="isArtist">
+
+        <!-- Tab nav -->
+        <div class="tab-nav">
+            <button class="tn" [class.on]="isTab('overview')"  (click)="setTab('overview')">Pasqyrë</button>
+            <button class="tn" [class.on]="isTab('artists')"   (click)="setTab('artists')">
+                Artistët e Mi
+                <span class="tn-ct" *ngIf="artistCount() > 0">{{ artistCount() }}</span>
+            </button>
+            <button class="tn" [class.on]="isTab('works')"     (click)="setTab('works')">
+                Veprat
+                <span class="tn-ct" *ngIf="workCount() > 0">{{ workCount() }}</span>
+            </button>
+            <button class="tn" [class.on]="isTab('settings')"  (click)="setTab('settings')">Cilësimet</button>
+        </div>
+
+        <!-- ── OVERVIEW ─────────────────────────────────────────── -->
+        <div class="section" *ngIf="isTab('overview')">
+
+            <!-- Skeleton -->
+            <div class="sk-wrap" *ngIf="dataLoading()">
+                <div class="sk-row" *ngFor="let i of [1,2,3]"></div>
+            </div>
+
+            <ng-container *ngIf="!dataLoading()">
+
+                <!-- Summary + action -->
+                <div class="ov-top-row">
+                    <button class="btn-primary btn-add-lg" (click)="openArtistModal()">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                        </svg>
+                        Shto Artist të Ri
+                    </button>
+                    <div class="ov-summary">
+                        <div class="ov-sum-card">
+                            <div class="osc-icon">🎨</div>
+                            <div class="osc-n">{{ artistCount() }}</div>
+                            <div class="osc-l">Artistë të shtuar</div>
+                        </div>
+                        <div class="ov-sum-card">
+                            <div class="osc-icon">🖼</div>
+                            <div class="osc-n">{{ workCount() }}</div>
+                            <div class="osc-l">Vepra të ngarkuara</div>
+                        </div>
+                        <div class="ov-sum-card">
+                            <div class="osc-icon">📍</div>
+                            <div class="osc-n">{{ cityCount() }}</div>
+                            <div class="osc-l">Qytete</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent artists -->
+                <div class="ov-section">
+                    <div class="ov-sh">
+                        <span class="ov-title">Artistët e Fundit</span>
+                        <button class="link-more" (click)="setTab('artists')" *ngIf="artistCount() > 3">
+                            Shiko të gjithë →
+                        </button>
+                    </div>
+
+                    <div class="artist-mini-grid" *ngIf="artists().length > 0">
+                        <a class="ami" *ngFor="let a of artists().slice(0,4); trackBy: trackById"
+                           [routerLink]="['/artist', a.id]">
+                            <div class="ami-av">
+                                <img *ngIf="a.fotoUrl" [src]="a.fotoUrl" [alt]="a.emri"/>
+                                <span *ngIf="!a.fotoUrl">{{ getArtistInitials(a) }}</span>
+                            </div>
+                            <div class="ami-info">
+                                <div class="ami-name">{{ a.emri }} {{ a.mbiemri }}</div>
+                                <div class="ami-meta">{{ a.lloji }} · {{ a.qytetiEmri }}</div>
+                                <div class="ami-works" *ngIf="(a.vepraNr ?? 0) > 0">{{ a.vepraNr }} vepra</div>
+                            </div>
+                            <svg class="ami-ch" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <polyline points="9 18 15 12 9 6"/>
+                            </svg>
+                        </a>
+                    </div>
+
+                    <div class="ov-empty" *ngIf="artists().length === 0">
+                        <span>🎨</span>
+                        <p>Nuk keni shtuar asnjë artist ende.</p>
+                        <button class="btn-primary" (click)="openArtistModal()">Shto Artistin e Parë</button>
+                    </div>
+                </div>
+
+                <!-- Recent works -->
+                <div class="ov-section" *ngIf="works().length > 0">
+                    <div class="ov-sh">
+                        <span class="ov-title">Veprat e Fundit</span>
+                        <button class="link-more" (click)="setTab('works')" *ngIf="workCount() > 8">
+                            Shiko të gjitha →
+                        </button>
+                    </div>
+                    <div class="works-mini-grid">
+                        <div class="wmi" *ngFor="let w of works().slice(0,8); trackBy: trackById">
+                            <div class="wmi-img">
+                                <img *ngIf="getWorkThumb(w)" [src]="getWorkThumb(w)" [alt]="w.titulli"/>
+                                <div *ngIf="!getWorkThumb(w)" class="wmi-empty"><span>🖼</span></div>
+                            </div>
+                            <div class="wmi-info">
+                                <div class="wmi-t">{{ w.titulli }}</div>
+                                <div class="wmi-m">{{ w.artistName }}<span *ngIf="w.viti"> · {{ w.viti }}</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Info block -->
+                <div class="info-block">
+                    <div class="ib-head ov-title">Informacione të Llogarisë</div>
+                    <div class="info-rows">
+                        <div class="ir"><span class="ik">Emri i plotë</span><span class="iv">{{ displayName }}</span></div>
+                        <div class="ir"><span class="ik">Email</span><span class="iv">{{ displayEmail }}</span></div>
+                        <div class="ir last"><span class="ik">Roli</span><span class="role-tag artist">{{ roleBadge }}</span></div>
+                    </div>
+                </div>
+
+            </ng-container>
+        </div>
+
+        <!-- ── ARTISTËT ──────────────────────────────────────────── -->
+        <div class="section" *ngIf="isTab('artists')">
+            <div class="sec-head">
+                <h2 class="sec-title">
+                    Artistët e Mi
+                    <span class="sec-count">{{ artistCount() }}</span>
+                </h2>
+                <button class="btn-primary btn-add" (click)="openArtistModal()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                         stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+                        <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+                    </svg>
+                    Shto Artist
+                </button>
+            </div>
+
+            <div class="sk-wrap" *ngIf="dataLoading()">
+                <div class="sk-card" *ngFor="let i of [1,2,3,4]"></div>
+            </div>
+
+            <div class="artist-full-grid" *ngIf="!dataLoading() && artists().length > 0">
+                <a class="afc" *ngFor="let a of artists(); trackBy: trackById"
+                   [routerLink]="['/artist', a.id]">
+                    <div class="afc-photo">
+                        <img *ngIf="a.fotoUrl" [src]="a.fotoUrl" [alt]="a.emri"/>
+                        <span class="afc-init" *ngIf="!a.fotoUrl">{{ getArtistInitials(a) }}</span>
+                        <div class="afc-ov"><span>Shiko Profilin →</span></div>
+                    </div>
+                    <div class="afc-info">
+                        <div class="afc-name">{{ a.emri }} {{ a.mbiemri }}</div>
+                        <div class="afc-meta">{{ a.lloji }}</div>
+                        <div class="afc-meta afc-city">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            {{ a.qytetiEmri }}
+                        </div>
+                        <div class="afc-works" *ngIf="(a.vepraNr ?? 0) > 0">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <path d="M3 9h18M9 21V9"/>
+                            </svg>
+                            {{ a.vepraNr }} vepra
+                        </div>
+                        <div class="afc-bio" *ngIf="a.bio">{{ a.bio }}</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="big-empty" *ngIf="!dataLoading() && artists().length === 0">
+                <div class="be-icon">🎨</div>
+                <h3>Asnjë Artist Ende</h3>
+                <p>Shtoni artistin tuaj të parë duke klikuar butonin.</p>
+                <button class="btn-primary" (click)="openArtistModal()" style="margin-top:1.25rem">
+                    Shto Artist të Ri
+                </button>
+            </div>
+        </div>
+
+        <!-- ── VEPRAT ────────────────────────────────────────────── -->
+        <div class="section" *ngIf="isTab('works')">
+            <div class="sec-head">
+                <h2 class="sec-title">
+                    Të gjitha Veprat
+                    <span class="sec-count">{{ workCount() }}</span>
+                </h2>
+            </div>
+
+            <div class="sk-wrap" *ngIf="dataLoading()">
+                <div class="sk-row" *ngFor="let i of [1,2,3,4]"></div>
+            </div>
+
+            <div class="works-table" *ngIf="!dataLoading() && works().length > 0">
+                <div class="wt-row" *ngFor="let w of works(); trackBy: trackById">
+                    <!-- Thumbnail -->
+                    <div class="wt-thumb">
+                        <img *ngIf="getWorkThumb(w)" [src]="getWorkThumb(w)" [alt]="w.titulli"/>
+                        <span class="wt-no" *ngIf="!getWorkThumb(w)">🖼</span>
+                        <span class="wt-more" *ngIf="(w.imazhet?.length ?? 0) > 1">
+              +{{ (w.imazhet!.length) - 1 }}
+            </span>
+                    </div>
+                    <!-- Info -->
+                    <div class="wt-main">
+                        <div class="wt-title">{{ w.titulli }}</div>
+                        <div class="wt-sub">
+                            <!-- Artist avatar + name -->
+                            <div class="wt-artist-chip">
+                                <div class="wt-artist-av">
+                                    <img *ngIf="w.artistPhoto" [src]="w.artistPhoto" [alt]="w.artistName"/>
+                                    <span *ngIf="!w.artistPhoto">{{ (w.artistName ?? ' ')[0] }}</span>
+                                </div>
+                                {{ w.artistName }}
+                            </div>
+                            <span *ngIf="w.medium" class="wt-dot">·</span>
+                            <span *ngIf="w.medium" class="wt-meta-item">{{ w.medium }}</span>
+                        </div>
+                        <div class="wt-desc" *ngIf="w.pershkrim">{{ w.pershkrim }}</div>
+                    </div>
+                    <!-- Right side -->
+                    <div class="wt-right">
+                        <span class="wt-tag" *ngIf="w.medium">{{ w.medium }}</span>
+                        <span class="wt-year" *ngIf="w.viti">{{ w.viti }}</span>
+                        <a class="wt-link" [routerLink]="['/artist', w.artistId]" title="Shko te artisti">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                                <polyline points="15 3 21 3 21 9"/>
+                                <line x1="10" y1="14" x2="21" y2="3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="big-empty" *ngIf="!dataLoading() && works().length === 0">
+                <div class="be-icon">🖼</div>
+                <h3>Asnjë Vepër Ende</h3>
+                <p>Shtoni vepra nga faqja e artistit tuaj.</p>
+                <button class="btn-ghost" (click)="setTab('artists')" style="margin-top:1.25rem">
+                    Shiko Artistët
+                </button>
+            </div>
+        </div>
+
+        <!-- ── CILËSIMET ─────────────────────────────────────────── -->
+        <div class="section" *ngIf="isTab('settings')">
+            <ng-container *ngTemplateOutlet="settingsTpl"></ng-container>
+        </div>
+
+    </ng-container>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     SETTINGS TEMPLATE (shared between artist + viewer)
+     ═══════════════════════════════════════════════════════════ -->
+<ng-template #settingsTpl>
+    <div class="settings-grid">
+
+        <!-- Personal info -->
+        <div class="sg-card">
+            <div class="sg-title">Informacioni Personal</div>
+            <p class="sg-desc">Ndrysho emrin, mbiemrin dhe biografinë tënde.</p>
+            <div class="form-group">
+                <label class="form-label">Emri</label>
+                <input class="form-input" type="text" [(ngModel)]="editEmri" placeholder="Emri juaj"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Mbiemri</label>
+                <input class="form-input" type="text" [(ngModel)]="editMbiemri" placeholder="Mbiemri juaj"/>
+            </div>
+            <div class="form-group">
+                <label class="form-label">Bio</label>
+                <textarea class="form-input form-textarea" [(ngModel)]="editBio"
+                          placeholder="Pak fjalë rreth jush..." rows="3"></textarea>
+            </div>
+            <button class="btn-gold sg-btn" (click)="saveSettings()" [disabled]="settingsSaving">
+                <span class="sp-sm" *ngIf="settingsSaving"></span>
+                {{ settingsSaving ? 'Duke ruajtur...' : 'Ruaj Ndryshimet' }}
+            </button>
+        </div>
+
+        <!-- Avatar -->
+        <div class="sg-card">
+            <div class="sg-title">Foto e Profilit</div>
+            <p class="sg-desc">Ngarko një foto profili (JPG, PNG, WEBP). Shfaqet në hero të profilit.</p>
+            <div class="av-section">
+                <div class="av-big" [class.has-img]="avatarUrl()">
+                    <img *ngIf="avatarUrl()" [src]="avatarUrl()" alt="Avatar"/>
+                    <span *ngIf="!avatarUrl()">{{ avatarInitials() }}</span>
+                </div>
+                <div class="av-upload-col">
+                    <label class="btn-ghost av-upload-btn" [class.disabled]="avatarSaving">
+                        <input type="file" accept="image/*" (change)="onAvatarChange($event)" [disabled]="avatarSaving"/>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/>
+                            <line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        <span class="sp-sm" *ngIf="avatarSaving"></span>
+                        <span *ngIf="!avatarSaving">{{ avatarUrl() ? 'Ndrysho Foton' : 'Ngarko Foto' }}</span>
+                    </label>
+                    <p class="av-hint">Rekomandohet 400×400 px</p>
+                </div>
+            </div>
+            <!-- Progress bar -->
+            <div class="upload-prog" *ngIf="uploadProgress() !== null">
+                <div class="up-bar"><div class="up-fill" [style.width.%]="uploadProgress()"></div></div>
+                <span class="up-pct">{{ uploadProgress() }}%</span>
+            </div>
+        </div>
+
+        <!-- Account info -->
+        <div class="sg-card">
+            <div class="sg-title">Llogaria</div>
+            <div class="info-rows">
+                <div class="ir"><span class="ik">Email</span><span class="iv">{{ displayEmail }}</span></div>
+                <div class="ir"><span class="ik">Roli</span>
+                    <span class="role-tag" [class.artist]="isArtist">{{ roleBadge }}</span></div>
+                <div class="ir last"><span class="ik">Gjendja</span>
+                    <span class="iv iv--ok">● Aktiv</span></div>
+            </div>
+        </div>
+
+        <!-- Sign-in methods -->
+        <div class="sg-card">
+            <div class="sg-title">Metodat e Hyrjes</div>
+            <p class="sg-desc">Lidhni llogarinë me Google ose Apple.</p>
+            <div class="social-btns">
+                <button class="btn-social btn-google" (click)="loginWithGoogle()" [disabled]="googleLoading">
+                    <span class="sp-sm" *ngIf="googleLoading"></span>
+                    <svg *ngIf="!googleLoading" width="17" height="17" viewBox="0 0 48 48">
+                        <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                        <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                        <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                        <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.18 1.48-4.97 2.31-8.16 2.31-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+                    </svg>
+                    <span>{{ googleLoading ? 'Duke lidhur...' : 'Lidhu me Google' }}</span>
+                </button>
+                <button class="btn-social btn-apple" (click)="loginWithApple()" [disabled]="appleLoading">
+                    <span class="sp-sm" *ngIf="appleLoading"></span>
+                    <svg *ngIf="!appleLoading" width="17" height="17" viewBox="0 0 814 1000" fill="currentColor">
+                        <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-37.5-155.5-127.4C46.7 790.7 0 663 0 541.8c0-207.5 135.4-317.1 268.5-317.1 99.8 0 169.6 56 225.3 56 53.7 0 137.2-59.4 248.8-59.4 39.5 0 142.2 3.8 208.4 78.2zm-206.4-154.3c-24.9 34.8-65.4 60.3-105.4 60.3-5.1 0-10.3-.6-15.4-1.5 1.3-39.5 19.2-79 44.1-106.6 24.9-27.5 67.1-48.9 103.5-50.8 1.3 5.8 1.9 11.6 1.9 17.3 0 38.3-15.6 76.7-28.7 81.3z"/>
+                    </svg>
+                    <span>{{ appleLoading ? 'Duke lidhur...' : 'Lidhu me Apple' }}</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Danger zone -->
+        <div class="sg-card sg-card--danger">
+            <div class="sg-title sg-title--danger">Zonë e Rrezikshme</div>
+            <p class="sg-desc">Dilni nga llogaria juaj në këtë pajisje.</p>
+            <button class="btn-logout sg-btn" (click)="logout()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                Dil nga Llogaria
+            </button>
+        </div>
+
+    </div>
+</ng-template>
+
+<!-- ═══════════════════════════════════════════════════════════
+     ADD ARTIST MODAL
+     ═══════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" *ngIf="showArtistModal" (click)="closeArtistModal()">
+    <div class="modal modal--lg" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+            <span class="modal-title">Shto Artist të Ri</span>
+            <button class="modal-close" (click)="closeArtistModal()">×</button>
+        </div>
+        <div class="modal-body">
+            <!-- Photo -->
+            <div class="photo-upload-row">
+                <div class="photo-preview">
+                    <img *ngIf="artistPreview" [src]="artistPreview" alt="Preview"/>
+                    <div *ngIf="!artistPreview" class="photo-placeholder">
+                        <svg width="26" height="26" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <circle cx="8.5" cy="8.5" r="1.5"/>
+                            <polyline points="21 15 16 10 5 21"/>
+                        </svg>
+                    </div>
+                    <button class="photo-remove" *ngIf="artistPreview" (click)="removeArtistPhoto()">×</button>
+                </div>
+                <div class="photo-upload-info">
+                    <label class="btn-ghost photo-upload-btn">
+                        <input type="file" accept="image/*" (change)="onArtistPhoto($event)"/>
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+                        </svg>
+                        {{ artistPreview ? 'Ndrysho Foton' : 'Ngarko Foto' }}
+                    </label>
+                    <p class="photo-hint">JPG, PNG, WEBP · Rekomandohet 400×400px</p>
+                </div>
+            </div>
+            <!-- Name -->
+            <div class="modal-row-2">
+                <div class="form-group">
+                    <label class="form-label">Emri <span class="req">*</span></label>
+                    <input class="form-input" type="text" [(ngModel)]="artistForm.emri" placeholder="p.sh. Ismail"/>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Mbiemri <span class="req">*</span></label>
+                    <input class="form-input" type="text" [(ngModel)]="artistForm.mbiemri" placeholder="p.sh. Kadare"/>
+                </div>
+            </div>
+            <!-- Type + City -->
+            <div class="modal-row-2">
+                <div class="form-group">
+                    <label class="form-label">Lloji</label>
+                    <select class="form-input form-select" [(ngModel)]="artistForm.lloji">
+                        <option *ngFor="let t of artistTypes" [value]="t">{{ t }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Qyteti</label>
+                    <select class="form-input form-select" [(ngModel)]="artistForm.qyteti">
+                        <option *ngFor="let c of cities" [value]="c.id">{{ c.name }}</option>
+                    </select>
+                </div>
+            </div>
+            <!-- Birth year -->
+            <div class="form-group">
+                <label class="form-label">Viti i Lindjes</label>
+                <input class="form-input" type="text" [(ngModel)]="artistForm.lindja" placeholder="p.sh. 1936"/>
+            </div>
+            <!-- Bio -->
+            <div class="form-group">
+                <label class="form-label">Biografia</label>
+                <textarea class="form-input form-textarea" [(ngModel)]="artistForm.bio"
+                          placeholder="Pak fjalë rreth artistit..." rows="3"></textarea>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn-cancel" (click)="closeArtistModal()">Anulo</button>
+            <button class="btn-save" (click)="saveArtist()" [disabled]="artistSaving">
+                <span class="sp-sm" *ngIf="artistSaving"></span>
+                {{ artistSaving ? 'Duke ruajtur...' : 'Shto Artistin' }}
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     LIGHTBOX
+     ═══════════════════════════════════════════════════════════ -->
+<div class="lightbox-overlay" *ngIf="lightbox" (click)="closeLightbox()">
+    <div class="lightbox-inner" (click)="$event.stopPropagation()">
+        <button class="lb-close" (click)="closeLightbox()">×</button>
+        <img class="lb-img" [src]="lightbox.src" [alt]="lightbox.titulli"/>
+        <div class="lb-info">
+            <div class="lb-title">{{ lightbox.titulli }}</div>
+            <a class="lb-artist" [routerLink]="['/artist', lightbox.artistId]" (click)="closeLightbox()">
+                {{ lightbox.artistName }}
+            </a>
+            <div class="lb-meta" *ngIf="lightbox.medium || lightbox.viti">
+                <span *ngIf="lightbox.medium">{{ lightbox.medium }}</span>
+                <span *ngIf="lightbox.medium && lightbox.viti"> · </span>
+                <span *ngIf="lightbox.viti">{{ lightbox.viti }}</span>
+            </div>
+        </div>
     </div>
 </div>

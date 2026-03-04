@@ -507,7 +507,7 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-track { background: var(--navy-mid); }
 ::-webkit-scrollbar-thumb { background: var(--border-h); border-radius: 99px; }
 
-main { padding-top: 64px; min-height: 100vh; }
+main {  min-height: 100vh; }
 
 // ── Animations ────────────────────────────────────────────
 @keyframes fadeIn {

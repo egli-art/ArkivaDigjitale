@@ -12,208 +12,208 @@ const fireAuth = admin.auth();
 
 // ─── Transporter ────────────────────────────────────────────────
 function getTransporter() {
-    const user = process.env.GMAIL_USER ?? "";
-    const pass = (process.env.GMAIL_PASS ?? "").replace(/\s+/g, "");
-    if (!user || !pass) {
-        throw new Error("GMAIL_USER ose GMAIL_PASS mungon");
-    }
-    return nodemailer.createTransport({
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {user, pass},
-    });
+  const user = process.env.GMAIL_USER ?? "";
+  const pass = (process.env.GMAIL_PASS ?? "").replace(/\s+/g, "");
+  if (!user || !pass) {
+    throw new Error("GMAIL_USER ose GMAIL_PASS mungon");
+  }
+  return nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {user, pass},
+  });
 }
 
 async function sendMail(
-    to: string,
-    subject: string,
-    html: string
+  to: string,
+  subject: string,
+  html: string
 ): Promise<void> {
-    const user = process.env.GMAIL_USER ?? "";
-    const transporter = getTransporter();
-    await transporter.sendMail({
-        from: `"Arkiva Digjitale" <${user}>`,
-        to,
-        subject,
-        html,
-    });
-    console.log(`✉ Email dërguar → ${to}`);
+  const user = process.env.GMAIL_USER ?? "";
+  const transporter = getTransporter();
+  await transporter.sendMail({
+    from: `"Arkiva Digjitale" <${user}>`,
+    to,
+    subject,
+    html,
+  });
+  console.log(`✉ Email dërguar → ${to}`);
 }
 
 // ═══════════════════════════════════════════════════════════════
 // 1. REGJISTRIM I RI
 // ═══════════════════════════════════════════════════════════════
 export const onUserRegistered = onDocumentCreated(
-    {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
-    async (event) => {
-        const data = event.data?.data() as any;
-        if (!data?.email) return;
-        const name = (data.emriPlote ?? "").trim() || data.email;
-        try {
-            if (data.roli === "artist") {
-                await sendMail(
-                    data.email,
-                    "⏳ Regjistrimi juaj u pranua — Arkiva Digjitale",
-                    pendingArtistHtml(name)
-                );
-            } else {
-                await sendMail(
-                    data.email,
-                    "🎉 Mirë se vini në Arkiva Digjitale!",
-                    welcomeShikuesHtml(name)
-                );
-            }
-        } catch (e: any) {
-            console.error("onUserRegistered email error:", e.message);
-        }
+  {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
+  async (event) => {
+    const data = event.data?.data() as any;
+    if (!data?.email) return;
+    const name = (data.emriPlote ?? "").trim() || data.email;
+    try {
+      if (data.roli === "artist") {
+        await sendMail(
+          data.email,
+          "⏳ Regjistrimi juaj u pranua — Arkiva Digjitale",
+          pendingArtistHtml(name)
+        );
+      } else {
+        await sendMail(
+          data.email,
+          "🎉 Mirë se vini në Arkiva Digjitale!",
+          welcomeShikuesHtml(name)
+        );
+      }
+    } catch (e: any) {
+      console.error("onUserRegistered email error:", e.message);
     }
+  }
 );
 
 // ═══════════════════════════════════════════════════════════════
 // 2. APROVIM (approved: false → true)
 // ═══════════════════════════════════════════════════════════════
 export const onUserApproved = onDocumentUpdated(
-    {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
-    async (event) => {
-        const before = event.data?.before.data() as any;
-        const after = event.data?.after.data() as any;
-        if (!before || !after) return;
-        if (!!before.approved === !!after.approved) return;
-        if (!after.approved) return;
-        if (after.roli !== "artist") return;
-        if (!after.email) return;
-        try {
-            await sendMail(
-                after.email,
-                "🎨 Llogaria juaj u aprovua — Arkiva Digjitale",
-                approvalHtml(after.emriPlote ?? after.email)
-            );
-        } catch (e: any) {
-            console.error("onUserApproved email error:", e.message);
-        }
+  {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
+  async (event) => {
+    const before = event.data?.before.data() as any;
+    const after = event.data?.after.data() as any;
+    if (!before || !after) return;
+    if (!!before.approved === !!after.approved) return;
+    if (!after.approved) return;
+    if (after.roli !== "artist") return;
+    if (!after.email) return;
+    try {
+      await sendMail(
+        after.email,
+        "🎨 Llogaria juaj u aprovua — Arkiva Digjitale",
+        approvalHtml(after.emriPlote ?? after.email)
+      );
+    } catch (e: any) {
+      console.error("onUserApproved email error:", e.message);
     }
+  }
 );
 
 // ═══════════════════════════════════════════════════════════════
 // 3. BLLOKUAR / ZHBLLOKUAR
 // ═══════════════════════════════════════════════════════════════
 export const onUserBanned = onDocumentUpdated(
-    {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
-    async (event) => {
-        const before = event.data?.before.data() as any;
-        const after = event.data?.after.data() as any;
-        if (!before || !after) return;
-        const uid = event.params.uid;
-        const name = (after.emriPlote ?? "").trim() || (after.email ?? "");
+  {document: "perdoruesit/{uid}", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
+  async (event) => {
+    const before = event.data?.before.data() as any;
+    const after = event.data?.after.data() as any;
+    if (!before || !after) return;
+    const uid = event.params.uid;
+    const name = (after.emriPlote ?? "").trim() || (after.email ?? "");
 
-        if (!before.banned && after.banned) {
-            try {
-                await fireAuth.updateUser(uid, {disabled: true});
-            } catch (e) {
-                console.warn("Could not disable auth user:", e);
-            }
-            if (after.email) {
-                try {
-                    await sendMail(
-                        after.email,
-                        "⛔ Llogaria juaj u bllokua — Arkiva Digjitale",
-                        bannedHtml(name)
-                    );
-                } catch (e: any) {
-                    console.error("Ban email error:", e.message);
-                }
-            }
+    if (!before.banned && after.banned) {
+      try {
+        await fireAuth.updateUser(uid, {disabled: true});
+      } catch (e) {
+        console.warn("Could not disable auth user:", e);
+      }
+      if (after.email) {
+        try {
+          await sendMail(
+            after.email,
+            "⛔ Llogaria juaj u bllokua — Arkiva Digjitale",
+            bannedHtml(name)
+          );
+        } catch (e: any) {
+          console.error("Ban email error:", e.message);
         }
-
-        if (before.banned && !after.banned) {
-            try {
-                await fireAuth.updateUser(uid, {disabled: false});
-            } catch (e) {
-                console.warn("Could not re-enable auth user:", e);
-            }
-            if (after.email) {
-                try {
-                    await sendMail(
-                        after.email,
-                        "✅ Llogaria juaj u zhbllokua — Arkiva Digjitale",
-                        unbannedHtml(name)
-                    );
-                } catch (e: any) {
-                    console.error("Unban email error:", e.message);
-                }
-            }
-        }
+      }
     }
+
+    if (before.banned && !after.banned) {
+      try {
+        await fireAuth.updateUser(uid, {disabled: false});
+      } catch (e) {
+        console.warn("Could not re-enable auth user:", e);
+      }
+      if (after.email) {
+        try {
+          await sendMail(
+            after.email,
+            "✅ Llogaria juaj u zhbllokua — Arkiva Digjitale",
+            unbannedHtml(name)
+          );
+        } catch (e: any) {
+          console.error("Unban email error:", e.message);
+        }
+      }
+    }
+  }
 );
 
 // ═══════════════════════════════════════════════════════════════
 // 4. CALLABLE: Ridërgo email aprovimi
 // ═══════════════════════════════════════════════════════════════
 export const sendApprovalEmail = onCall(
-    {region: "europe-west1", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
-    async (request) => {
-        const callerUid = request.auth?.uid;
-        if (!callerUid) {
-            throw new HttpsError("unauthenticated", "Not authenticated");
-        }
-        const callerSnap = await db
-            .collection("perdoruesit")
-            .doc(callerUid)
-            .get();
-        if (callerSnap.data()?.roli !== "admin") {
-            throw new HttpsError("permission-denied", "Admins only");
-        }
-        const {targetUid} = request.data as {targetUid: string};
-        if (!targetUid) {
-            throw new HttpsError("invalid-argument", "targetUid required");
-        }
-        const userSnap = await db
-            .collection("perdoruesit")
-            .doc(targetUid)
-            .get();
-        const user = userSnap.data() as any;
-        if (!user?.email) {
-            throw new HttpsError("not-found", "Email not found");
-        }
-        try {
-            await sendMail(
-                user.email,
-                "🎨 Llogaria juaj u aprovua — Arkiva Digjitale",
-                approvalHtml(user.emriPlote ?? user.email)
-            );
-        } catch (e: any) {
-            console.error("sendApprovalEmail error:", e.message);
-            throw new HttpsError("internal", e.message ?? "Email dërgimi dështoi");
-        }
-        return {success: true, sentTo: user.email};
+  {region: "europe-west1", secrets: ["GMAIL_USER", "GMAIL_PASS"]},
+  async (request) => {
+    const callerUid = request.auth?.uid;
+    if (!callerUid) {
+      throw new HttpsError("unauthenticated", "Not authenticated");
     }
+    const callerSnap = await db
+      .collection("perdoruesit")
+      .doc(callerUid)
+      .get();
+    if (callerSnap.data()?.roli !== "admin") {
+      throw new HttpsError("permission-denied", "Admins only");
+    }
+    const {targetUid} = request.data as {targetUid: string};
+    if (!targetUid) {
+      throw new HttpsError("invalid-argument", "targetUid required");
+    }
+    const userSnap = await db
+      .collection("perdoruesit")
+      .doc(targetUid)
+      .get();
+    const user = userSnap.data() as any;
+    if (!user?.email) {
+      throw new HttpsError("not-found", "Email not found");
+    }
+    try {
+      await sendMail(
+        user.email,
+        "🎨 Llogaria juaj u aprovua — Arkiva Digjitale",
+        approvalHtml(user.emriPlote ?? user.email)
+      );
+    } catch (e: any) {
+      console.error("sendApprovalEmail error:", e.message);
+      throw new HttpsError("internal", e.message ?? "Email dërgimi dështoi");
+    }
+    return {success: true, sentTo: user.email};
+  }
 );
 
 // ═══════════════════════════════════════════════════════════════
 // 5. CALLABLE: Statusi i përdoruesit
 // ═══════════════════════════════════════════════════════════════
 export const checkUserStatus = onCall(
-    {region: "europe-west1"},
-    async (request) => {
-        const uid = request.auth?.uid;
-        if (!uid) throw new HttpsError("unauthenticated", "Not authenticated");
-        const snap = await db.collection("perdoruesit").doc(uid).get();
-        const data = snap.data() as any;
-        return {
-            banned: data?.banned ?? false,
-            approved: data?.approved ?? false,
-            roli: data?.roli ?? "shikues",
-        };
-    }
+  {region: "europe-west1"},
+  async (request) => {
+    const uid = request.auth?.uid;
+    if (!uid) throw new HttpsError("unauthenticated", "Not authenticated");
+    const snap = await db.collection("perdoruesit").doc(uid).get();
+    const data = snap.data() as any;
+    return {
+      banned: data?.banned ?? false,
+      approved: data?.approved ?? false,
+      roli: data?.roli ?? "shikues",
+    };
+  }
 );
 
 // ═══════════════════════════════════════════════════════════════
 // HTML TEMPLATES
 // ═══════════════════════════════════════════════════════════════
 function wrap(body: string): string {
-    const yr = new Date().getFullYear();
-    return `<!DOCTYPE html><html lang="sq"><head><meta charset="UTF-8">
+  const yr = new Date().getFullYear();
+  return `<!DOCTYPE html><html lang="sq"><head><meta charset="UTF-8">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 body{background:#07070f;font-family:Georgia,serif}
@@ -247,14 +247,14 @@ a.btn{display:inline-block;margin:1rem 0;padding:.8rem 2rem;border-radius:10px;b
 }
 
 function welcomeShikuesHtml(name: string): string {
-    return wrap(`<span class="badge ok">✓ Llogari e re</span>
+  return wrap(`<span class="badge ok">✓ Llogari e re</span>
 <h1 style="margin-top:.85rem">Mirë se vini, ${name}!</h1>
 <p>Llogaria juaj si <strong>Shikues</strong> u krijua me sukses.</p>
 <br><a href="https://arkiva-digjitale.web.app" class="btn">Hap Arkivën →</a>`);
 }
 
 function pendingArtistHtml(name: string): string {
-    return wrap(`<span class="badge warn">⏳ Në pritje</span>
+  return wrap(`<span class="badge warn">⏳ Në pritje</span>
 <h1 style="margin-top:.85rem">Faleminderit, ${name}!</h1>
 <p>Regjistrimi juaj si <strong>Artist / Autor</strong> u pranua.</p>
 <p>Do të merrni email konfirmimi brenda <strong>24–48 orëve</strong>.</p>
@@ -268,20 +268,20 @@ function pendingArtistHtml(name: string): string {
 }
 
 function approvalHtml(name: string): string {
-    return wrap(`<span class="badge ok">🎨 Aprovuar</span>
+  return wrap(`<span class="badge ok">🎨 Aprovuar</span>
 <h1 style="margin-top:.85rem">Urime, ${name}!</h1>
 <p>Llogaria juaj si <strong>Artist / Autor</strong> u aprovua.</p>
 <br><a href="https://arkiva-digjitale.web.app" class="btn">Hyr në Platformë →</a>`);
 }
 
 function bannedHtml(name: string): string {
-    return wrap(`<span class="badge err">⛔ Bllokuar</span>
+  return wrap(`<span class="badge err">⛔ Bllokuar</span>
 <h1 style="margin-top:.85rem">Llogaria juaj u bllokua</h1>
 <p>Mirëdita ${name}, llogaria juaj u bllokua nga administratori.</p>`);
 }
 
 function unbannedHtml(name: string): string {
-    return wrap(`<span class="badge ok">✅ Aktive</span>
+  return wrap(`<span class="badge ok">✅ Aktive</span>
 <h1 style="margin-top:.85rem">Llogaria u aktivizua, ${name}!</h1>
 <p>Bllokimi u hoq. Tani mund të hyni sërish normalisht.</p>
 <br><a href="https://arkiva-digjitale.web.app" class="btn">Hyr →</a>`);

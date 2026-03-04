@@ -1,9 +1,122 @@
 rules_version = '2';
-
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if true;
+
+    // ─── Helpers ─────────────────────────────────────────────────
+
+    function isLoggedIn() {
+      return request.auth != null;
     }
+
+    function getProfile() {
+      return get(/databases/$(database)/documents/perdoruesit/$(request.auth.uid)).data;
+    }
+
+    function isAdmin() {
+      return isLoggedIn() && getProfile().roli == 'admin';
+    }
+
+    function isApprovedArtist() {
+      return isLoggedIn()
+        && getProfile().roli == 'artist'
+        && getProfile().approved == true
+        && getProfile().banned != true;
+    }
+
+    function isApprovedUser() {
+      return isLoggedIn()
+        && getProfile().banned != true
+        && (
+             getProfile().roli == 'admin'
+          || getProfile().roli == 'shikues'
+          || (getProfile().roli == 'artist' && getProfile().approved == true)
+        );
+    }
+
+    function isOwner(uid) {
+      return isLoggedIn() && request.auth.uid == uid;
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // PERDORUESIT
+    // ════════════════════════════════════════════════════════════
+    match /perdoruesit/{uid} {
+
+      // Lexim: pronari i vet ose çdo user i loguar dhe jo i bllokuar
+      allow read: if isOwner(uid) || isApprovedUser();
+
+      // Krijim: vetëm regjistrimi — pronari, roli vetëm artist/shikues
+      allow create: if isOwner(uid)
+        && request.resource.data.uid == uid
+        && request.resource.data.roli in ['artist', 'shikues'];
+
+      // Update: admini mund gjithçka
+      //         pronari mund të ndryshojë vetëm fushat e profileit
+      //         (jo roli, approved, banned, approvedBy, approvedAt)
+      allow update: if isAdmin()
+        || (isOwner(uid)
+            && !request.resource.data.diff(resource.data)
+                .affectedKeys()
+                .hasAny(['roli', 'approved', 'banned', 'approvedBy', 'approvedAt']));
+
+      // Fshirje: vetëm admini
+      allow delete: if isAdmin();
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // ARTISTET
+    // ════════════════════════════════════════════════════════════
+    match /artistet/{artistId} {
+
+      allow read: if isApprovedUser();
+
+      allow create: if isApprovedArtist()
+        && request.resource.data.shtuesId == request.auth.uid;
+
+      allow update: if isAdmin()
+        || (isApprovedArtist()
+            && resource.data.shtuesId == request.auth.uid);
+
+      allow delete: if isAdmin()
+        || (isApprovedArtist()
+            && resource.data.shtuesId == request.auth.uid);
+
+      // ── Veprat ──────────────────────────────────────────────
+      match /veprat/{veprId} {
+
+        allow read: if isApprovedUser();
+
+        allow create: if isApprovedArtist()
+          && request.resource.data.shtuesId == request.auth.uid;
+
+        allow update: if isAdmin()
+          || (isApprovedArtist()
+              && resource.data.shtuesId == request.auth.uid);
+
+        allow delete: if isAdmin()
+          || (isApprovedArtist()
+              && resource.data.shtuesId == request.auth.uid);
+      }
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // MAIL — vetëm Firebase Functions (Admin SDK)
+    // ════════════════════════════════════════════════════════════
+    match /mail/{docId} {
+      allow read, write: if false;
+    }
+
+
+    // ════════════════════════════════════════════════════════════
+    // QYTETET
+    // ════════════════════════════════════════════════════════════
+    match /qytetet/{cityId} {
+      allow read: if isApprovedUser();
+      allow write: if isAdmin();
+    }
+
   }
 }
